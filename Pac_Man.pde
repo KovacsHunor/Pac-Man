@@ -54,106 +54,31 @@ float rady = 5.78;
 int count = 0;
 boolean mouth = false;
 boolean wall = false;
+
+Left left = new Left();
+Right right = new Right();
+Down down = new Down();
+Up up = new Up();
+
 void draw()
 {
   switch (dir)
   {
     case "up":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposy-csize/2 < walls[i].d + 3 && cposy - 12 > walls[i].u + 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposy -= 2;
-    radx = 0.5 - PI/2;
-    rady = 5.78 - PI/2;
-    wall = false;
+    up.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-    
-    
-    
     
     case "down":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposy+csize/2 > walls[i].u - 3 && cposy + 12 < walls[i].d - 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposy += 2;
-    radx = 0.5 + PI/2;
-    rady = 5.78 + PI/2;
-    wall = false;
+    down.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-    
-    
-    
     
     case "right":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposx+csize/2 > walls[i].l - 3 && cposx + 12 < walls[i].l - 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposx += 2;
-    radx = 0.5;
-    rady = 5.78;
-    wall = false;
+    right.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-     
-     
      
     case "left":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposx-csize/2 < walls[i].r + 3 && cposx - 12 > walls[i].r + 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposx -= 2;
-    radx = 0.5 - PI;
-    rady = 5.78 - PI;
-    wall = false;
+    left.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-     
   }
   background(0);
   field();
@@ -198,5 +123,89 @@ void keyPressed()
   {
      
     dir = "left";
+  }
+}
+
+class Collision
+{
+  public void Collide()
+  {
+    for(int i = 0; i < walls.length; i++)
+    {
+     if(Bool(i))
+     {
+       wall = true;
+     }
+    }
+    if(!wall)
+     {
+    Set();
+    wall = false;
+    return;
+     }
+     else
+     {
+       wall = false;
+     }
+  }
+  boolean Bool(int i)
+  {
+    return false;
+  }
+  void Set()
+  {
+    
+  }
+}
+class Left extends Collision
+{
+  boolean Bool(int i)
+  {
+    return  cposx-csize/2 < walls[i].r + 3 && cposx - 12 > walls[i].r + 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2;
+  }
+  void Set()
+  {
+    cposx -= 2;
+    radx = 0.5 - PI;
+    rady = 5.78 - PI;
+  }
+}
+class Right extends Collision
+{
+  boolean Bool(int i)
+  {
+    return cposx+csize/2 > walls[i].l - 3 && cposx + 12 < walls[i].l - 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2;
+  }
+  void Set()
+  {
+    cposx += 2;
+    radx = 0.5;
+    rady = 5.78;
+  }
+}
+class Up extends Collision
+{
+  boolean Bool(int i)
+  {
+    return cposy-csize/2 < walls[i].d + 3 && cposy - 12 > walls[i].u + 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2;
+  }
+  void Set()
+  {
+    cposy -= 2;
+    radx = 0.5 - PI/2;
+    rady = 5.78 - PI/2;
+  }
+}
+class Down extends Collision
+{
+  boolean Bool(int i)
+  {
+    return cposy+csize/2 > walls[i].u - 3 && cposy + 12 < walls[i].d - 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2;
+  }
+  void Set()
+  {
+    cposy += 2;
+    radx = 0.5 + PI/2;
+    rady = 5.78 + PI/2;
   }
 }
