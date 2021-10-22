@@ -1,18 +1,4 @@
-public class Rect
-{
- int r;
- int l;
- int u;
- int d;
- void show(int px, int py, int sx, int sy, int c)
- {
-   rect(px*25, py*25, sx*25, sy*25, c);
-   l = px*25;
-   u = py*25;
-   r = l + sx*25;
-   d = u + sy*25;
- }
-}
+Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[40];
 
 void setup()
@@ -21,194 +7,143 @@ void setup()
   {
    walls[i] = new Rect();
   }
+  for(int i = 0; i < 30; i++)
+   {
+     for(int j = 0; j < 36; j++)
+     {
+       dots[i][j] = new Dot();
+       dots[i][j].bool = true;
+     }
+   }
   background(0);
-  size(700, 900);
+  size(701, 900);
   textSize(30);
-  
+
 }
 void field()
 {
    fill(0);
    stroke(0, 0, 255);
-   
-   walls[0].show(0, 4, 28, 1, 20);
-   walls[1].show(0, 4, 1, 31, 20);
-   walls[2].show(27, 4, 1, 31, 20);
-   walls[3].show(0, 34, 28, 1, 20);
-   walls[4].show(13, 4, 2, 5, 20);
-   walls[5].show(2, 6, 4, 3, 20);
-   walls[6].show(7, 6, 5, 3, 20);
-   walls[7].show(16, 6, 5, 3, 20);
-   walls[8].show(22, 6, 4, 3, 20);
-   walls[9].show(2, 10, 4, 2, 20);
-   walls[10].show(22, 10, 4, 2, 20);
-   walls[11].show(10, 10, 8, 2, 20);
-   walls[12].show(1, 13, 5, 5, 20);
-   walls[13].show(7, 10, 2, 8, 20);
-   walls[14].show(7, 13, 5, 2, 20);
-   walls[15].show(13, 10, 2, 5, 20);
-   walls[16].show(19, 10, 2, 8, 20);
-   walls[17].show(16, 13, 5, 2, 20);
-   walls[18].show(22, 13, 5, 5, 20);
-   walls[19].show(1, 19, 5, 5, 20);
-   walls[20].show(22, 19, 5, 5, 20);
-   walls[21].show(7, 19, 2, 5, 20);
-   walls[22].show(19, 19, 2, 5, 20);
-   walls[23].show(10, 22, 8, 2, 20);
-   walls[24].show(13, 22, 2, 5, 20);
-   walls[25].show(2, 25, 4, 2, 20);
-   walls[26].show(4, 25, 2, 5, 20);
-   walls[27].show(7, 25, 5, 2, 20);
-   walls[28].show(16, 25, 5, 2, 20);
-   walls[29].show(22, 25, 4, 2, 20);
-   walls[30].show(22, 25, 2, 5, 20);
-   walls[31].show(0, 28, 3, 2, 20);
-   walls[32].show(25, 28, 3, 2, 20);
-   walls[33].show(2, 31, 10, 2, 20);
-   walls[34].show(16, 31, 10, 2, 20);
-   walls[35].show(10, 28, 8, 2, 20);
-   walls[36].show(7, 28, 2, 5, 20);
-   walls[37].show(19, 28, 2, 5, 20);
-   walls[38].show(13, 28, 2, 5, 20);
-   walls[39].show(10, 16, 8, 5, 20);
-   
+
+   walls[0].Show(0, 4, 28, 1, 20);
+   walls[1].Show(0, 4, 1, 31, 20);
+   walls[2].Show(27, 4, 1, 31, 20);
+   walls[3].Show(0, 34, 28, 1, 20);
+   walls[4].Show(13, 4, 2, 5, 20);
+   walls[5].Show(2, 6, 4, 3, 20);
+   walls[6].Show(7, 6, 5, 3, 20);
+   walls[7].Show(16, 6, 5, 3, 20);
+   walls[8].Show(22, 6, 4, 3, 20);
+   walls[9].Show(2, 10, 4, 2, 20);
+   walls[10].Show(22, 10, 4, 2, 20);
+   walls[11].Show(10, 10, 8, 2, 20);
+   walls[12].Show(1, 13, 5, 5, 20);
+   walls[13].Show(7, 10, 2, 8, 20);
+   walls[14].Show(7, 13, 5, 2, 20);
+   walls[15].Show(13, 10, 2, 5, 20);
+   walls[16].Show(19, 10, 2, 8, 20);
+   walls[17].Show(16, 13, 5, 2, 20);
+   walls[18].Show(22, 13, 5, 5, 20);
+   walls[19].Show(1, 19, 5, 5, 20);
+   walls[20].Show(22, 19, 5, 5, 20);
+
+   walls[21].Show(7, 19, 2, 5, 20);
+   walls[22].Show(19, 19, 2, 5, 20);
+   walls[23].Show(10, 22, 8, 2, 20);
+   walls[24].Show(13, 22, 2, 5, 20);
+   walls[25].Show(2, 25, 4, 2, 20);
+   walls[26].Show(4, 25, 2, 5, 20);
+   walls[27].Show(7, 25, 5, 2, 20);
+   walls[28].Show(16, 25, 5, 2, 20);
+   walls[29].Show(22, 25, 4, 2, 20);
+   walls[30].Show(22, 25, 2, 5, 20);
+   walls[31].Show(0, 28, 3, 2, 20);
+   walls[32].Show(25, 28, 3, 2, 20);
+   walls[33].Show(2, 31, 10, 2, 20);
+   walls[34].Show(16, 31, 10, 2, 20);
+   walls[35].Show(10, 28, 8, 2, 20);
+   walls[36].Show(7, 28, 2, 5, 20);
+   walls[37].Show(19, 28, 2, 5, 20);
+   walls[38].Show(13, 28, 2, 5, 20);
+   walls[39].Show(10, 16, 8, 5, 20);
+
    noStroke();
    for(int i = 0; i < walls.length; i++)
    {
       rect(walls[i].l+1, walls[i].u+1, walls[i].r-walls[i].l-1, walls[i].d-walls[i].u-1, 20); 
    }
-   
-   /*walls[0].show(100, 50, 800, 5, 20);
-   text(walls[0].d, 200, 220);
-   walls[1].show(100, 50, 5, 500, 20);
-   walls[2].show(100, 545, 800, 5, 20);
-   walls[3].show(895, 50, 5, 500, 20);
-   walls[4].show(150, 100, 50, 50, 20);
-   stroke(0, 0, 0);
-   rect(101, 51, 798, 3, 20);
-   rect(101, 51, 3, 498, 20);
-   rect(101, 546, 798, 3, 20);
-   rect(896, 51, 3, 498, 20);
-   stroke(0, 0, 255);*/
- 
-  
-  stroke(0, 0, 0);
-   
+
+
+  noStroke();
+
 }
-int csize = 20;
-int cposx = 300;
-int cposy = 300;
+int csize = 22;
+int cposx = 388;
+int cposy = 612;
 float radx = 0.5;
 float rady = 5.78;
 
 int count = 0;
 boolean mouth = false;
 boolean wall = false;
+
+Left left = new Left();
+Right right = new Right();
+Down down = new Down();
+Up up = new Up();
+
+
+String after = "";
+int c;
 void draw()
 {
   switch (dir)
   {
     case "up":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposy-csize/2 < walls[i].d + 3 && cposy - csize/2-3 > walls[i].u + 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposy -= 2;
-    radx = 0.5 - PI/2;
-    rady = 5.78 - PI/2;
-    wall = false;
+    up.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-    
-    
-    
     
     case "down":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposy+csize/2 > walls[i].u - 3 && cposy + csize/2-3 < walls[i].d - 3 && cposx+csize/2 > walls[i].l && walls[i].r > cposx-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposy += 2;
-    radx = 0.5 + PI/2;
-    rady = 5.78 + PI/2;
-    wall = false;
+    down.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-    
-    
-    
     
     case "right":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposx+csize/2 > walls[i].l - 3 && cposx + csize/2-3 < walls[i].l - 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposx += 2;
-    radx = 0.5;
-    rady = 5.78;
-    wall = false;
+    right.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-     
-     
      
     case "left":
-    for(int i = 0; i < walls.length; i++)
-    {
-     if(cposx-csize/2 < walls[i].r + 3 && cposx - 7 > walls[i].r + 3 && cposy+csize/2 > walls[i].u && walls[i].d > cposy-csize/2)
-     {
-       wall = true;
-     }
-    }
-    if(!wall)
-     {
-    cposx -= 2;
-    radx = 0.5 - PI;
-    rady = 5.78 - PI;
-    wall = false;
+    left.Collide();
     break;
-     }
-     else
-     {
-       wall = false;
-       break;
-     }
-     
   }
+  
   background(0);
   field();
+  int dotcount = 0;
+  for(int i = 0; i < 26; i++)
+   {
+     for(int j = 0; j < 29; j++)
+     {
+       if(dots[i][j].bool == true)
+       {
+         noStroke();
+        fill(255, 255, 255);
+        dots[i][j].Show(i, j, 6, 6);
+       }
+     }
+   }
+   
   fill(255, 255, 0);
   arc(cposx, cposy, csize, csize, radx - 0.01*count, rady + 0.01*count%10);
+  for(int i = 0; i < 26; i++)
+   {
+     for(int j = 0; j < 29; j++)
+     {
+       if(get(dots[i][j].l, dots[i][j].u) != color(255, 255, 255))
+       {
+         dots[i][j].bool = false;
+       }
+     }
+   }
   if(count > 50)
   {
     mouth = true;
@@ -225,28 +160,56 @@ void draw()
   {
     count -= 10;
   }
-  
+  switch (after)
+  {
+    
+    case "up":
+    up.ACollide();
+    up.Tri();
+    break;
+    
+    case "down":
+    down.ACollide();
+    down.Tri();
+    break;
+    
+    case "right":
+    right.ACollide();
+    right.Tri();
+    break;
+     
+    case "left":
+    left.ACollide();
+    left.Tri();
+    break;
+    
+  }
 }
 String dir = "";
 void keyPressed()
 {
-  
-  if(keyCode == UP)
+  if(keyCode == UP && after != "up")
   {
-   
     dir = "up";
+    after = dir;
   }
-  else if(keyCode == DOWN)
+  else if(keyCode == DOWN && after != "down")
   {
     dir = "down";
+    after = dir;
   }
-  else if(keyCode == RIGHT)
+  else if(keyCode == RIGHT && after != "right")
   {
     dir = "right";
+    after = dir;
   }
-  else if(keyCode == LEFT)
+  else if(keyCode == LEFT && after != "left")
   {
-     
     dir = "left";
+    after = dir;
   }
 }
+
+
+int speed = 2;
+String towards = "";
