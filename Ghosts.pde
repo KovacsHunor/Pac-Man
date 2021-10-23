@@ -1,5 +1,7 @@
 class Ghosts
 {
+  int CaughtX = 13;
+  int CaughtY = 14;
   int PosX;
   int PosY;
   int TargetX;
@@ -25,6 +27,11 @@ class Blinky extends Ghosts
     case "scatter":
     TargetX = ScatterX;
     TargetY = ScatterY;
+    break;
+    
+    case "caught":
+    TargetX = CaughtX;
+    TargetY = CaughtY;
     break;
     }
   }
@@ -65,6 +72,11 @@ class Pinky extends Ghosts
     case "scatter":
     TargetX = ScatterX;
     TargetY = ScatterY;
+    break;
+    
+    case "caught":
+    TargetX = CaughtX;
+    TargetY = CaughtY;
     break;
     }   
   }
@@ -107,6 +119,11 @@ class Inky extends Ghosts
     TargetX = ScatterX;
     TargetY = ScatterY;
     break;
+    
+    case "caught":
+    TargetX = CaughtX;
+    TargetY = CaughtY;
+    break;
     }
   }
 }
@@ -134,6 +151,11 @@ class Clyde extends Ghosts
     case "scatter":
     TargetX = ScatterX;
     TargetY = ScatterY;
+    break;
+    
+    case "caught":
+    TargetX = CaughtX;
+    TargetY = CaughtY;
     break;
     }
   }
