@@ -1,4 +1,4 @@
-float scale = 1.05;
+float scale = 1;
 
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[40];
