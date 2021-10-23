@@ -4,7 +4,7 @@ class Ghosts
   int PosY;
   int TargetX;
   int TargetY;
-  void Target(Ghosts blinky)
+  void Target(Ghosts blinky, String phase)
   {
     
   }
@@ -13,18 +13,31 @@ class Blinky extends Ghosts
 {
   int ScatterX = 25;
   int ScatterY = -1;
-  void Target(Ghosts blinky)
+  void Target(Ghosts blinky, String phase)
   {
+    switch(phase)
+    {
+    case "chase":
     TargetX = cposx/25;
     TargetY = cposy/25;
+    break;
+    
+    case "scatter":
+    TargetX = ScatterX;
+    TargetY = ScatterY;
+    break;
+    }
   }
 }
 class Pinky extends Ghosts
 {
   int ScatterX = 2;
   int ScatterY = -1;
-  void Target(Ghosts blinky)
+  void Target(Ghosts blinky, String phase)
   {
+    switch(phase)
+    {
+    case "chase":
     int deltaX = 0;
     int deltaY = 0;
     switch(dir)
@@ -47,14 +60,24 @@ class Pinky extends Ghosts
     }
     TargetX = cposx/25 + deltaX;
     TargetY = cposy/25 + deltaY;
+    break;
+    
+    case "scatter":
+    TargetX = ScatterX;
+    TargetY = ScatterY;
+    break;
+    }   
   }
 }
 class Inky extends Ghosts
 {
   int ScatterX = 34;
   int ScatterY = 27;
-  void Target(Ghosts blinky)
+  void Target(Ghosts blinky, String phase)
   {    
+    switch(phase)
+    {
+    case "chase":
     int deltaX = 0;
     int deltaY = 0;
     switch(dir)
@@ -78,15 +101,24 @@ class Inky extends Ghosts
     
     TargetX = blinky.PosX/25 - 2*(cposx/25 + deltaX);
     TargetY = blinky.PosY/25 - 2*(cposy/25 + deltaY);
+    break;
     
+    case "scatter":
+    TargetX = ScatterX;
+    TargetY = ScatterY;
+    break;
+    }
   }
 }
 class Clyde extends Ghosts
 {
   int ScatterX = 0;
   int ScatterY = 34;
-  void Target(Ghosts blinky)
+  void Target(Ghosts blinky, String phase)
   {
+    switch(phase)
+    {
+    case "chase":
     if(sqrt(sq(PosX - cposx) + sq(PosY - cposy)) <= 8)
     {
       TargetX = cposx/25;
@@ -96,6 +128,13 @@ class Clyde extends Ghosts
     {
       TargetX = this.ScatterX;
       TargetY = this.ScatterY;
+    }
+    break;
+    
+    case "scatter":
+    TargetX = ScatterX;
+    TargetY = ScatterY;
+    break;
     }
   }
 }
