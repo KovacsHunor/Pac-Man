@@ -10,6 +10,15 @@ class Ghosts
   {
     
   }
+  boolean Collides()
+  {
+    boolean bool = false;
+    if(cposx-csize/2 < PosX-25 && cposx+csize/2 > PosX && cposy-csize/2 < PosY-25 && cposy+csize/2 > PosY)
+    {
+      bool = true;
+    }
+    return bool;
+  }
 }
 class Blinky extends Ghosts
 {
