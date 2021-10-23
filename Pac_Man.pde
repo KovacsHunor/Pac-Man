@@ -1,7 +1,6 @@
 float scale = 1;
-
 Dot[][] dots = new Dot[30][36];
-Rect[] walls = new Rect[40];
+Rect[] walls = new Rect[42];
 void Dotdef()
 {
   for (int i = 0; i < 30; i++)
@@ -46,7 +45,7 @@ void Dotdef()
 void setup()
 {
   scale *= displayHeight / 1080f;
-  frameRate(90);
+  frameRate(100);
   for (int i = 0; i < 30; i++)
   {
     for (int j = 0; j < 36; j++)
@@ -70,8 +69,12 @@ void field(color c)
   fill(0);
   stroke(c);
   walls[0].Show(0, 4, 28, 1, 20);
-  walls[1].Show(0, 4, 1, 31, 20);
-  walls[2].Show(27, 4, 1, 31, 20);
+  walls[1].Show(0, 4, 1, 10, 20);
+  walls[40].Show(0, 20, 1, 15, 20);
+  
+  walls[2].Show(27, 4, 1, 10, 20);
+  walls[41].Show(27, 20, 1, 15, 20);
+  
   walls[3].Show(0, 34, 28, 1, 20);
   walls[4].ShowBorder(13, 4, 2, 5, 0, 0, 20, 20);
   walls[5].Show(2, 6, 4, 3, 20);
@@ -110,15 +113,14 @@ void field(color c)
   walls[38].Show(13, 28, 2, 5, 20);
   walls[39].Show(10, 16, 8, 5, 20);
   noStroke();
+  
   for (int i = 0; i < walls.length; i++)
   {
     rect(walls[i].l+11, walls[i].u+11, walls[i].r-walls[i].l-21, walls[i].d-walls[i].u-21, 20);
   }
-
-  noStroke();
 }
 int csize = 22;
-int cposx = 351;
+int cposx = 356;
 int cposy = 688;
 float radx = 0.5;
 float rady = 5.78;
@@ -137,8 +139,15 @@ boolean reload = false;
 int reloadcount = 0;
 void draw()
 {
-
   scale(scale);
+  if(cposx < 0)
+  {
+    cposx = 29*25;
+  }
+  if(cposx > 29*25)
+  {
+    cposx = 0;
+  }
   if (boolcount == 244)
   {
     towards = "";
@@ -220,10 +229,10 @@ void draw()
   fill(255, 255, 0);
   if (dir != "")
   {
-    arc(cposx, cposy, csize + 14, csize + 14, radx - 0.01*count, rady + 0.01*count%10);
+    arc(cposx, cposy, csize + 13, csize + 13, radx - 0.01*count, rady + 0.01*count%10);
   } else
   {
-    circle(cposx, cposy, csize + 14);
+    circle(cposx, cposy, csize + 13);
   }
 
   for (int i = 0; i < 26; i++)
