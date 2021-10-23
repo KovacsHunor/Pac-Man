@@ -1,30 +1,73 @@
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[40];
 
+void Dotdef()
+{
+  for(int i = 0; i < 30; i++)
+  {
+    for(int j = 0; j < 36; j++)
+    {
+      dots[i][j].bool = true;
+    }
+  }
+  for(int i = 10; i < 17; i++)
+  {
+    dots[8][i].bool = false;
+  }
+    for(int i = 10; i < 16; i++)
+  {
+    dots[17][i].bool = false;
+  }
+  for(int i = 9; i < 17; i++)
+  {
+    for(int j = 8; j < 11; j++)
+    {
+      dots[i][j].bool = false;
+    }
+  }
+  for(int j = 16; j < 19; j++)
+  {
+    
+    for(int i = 8; i < 18; i++)
+    {
+    dots[i][j].bool = false;
+    }
+  }
+  for(int i = 0; i < 30; i++)
+  {
+    dots[i][13].bool = false;
+  }
+  dots[12][22].bool = false;
+  dots[13][22].bool = false;
+  dots[5][13].bool = true;
+  dots[20][13].bool = true;
+}
+
 void setup()
 {
+  frameRate(90);
+  for(int i = 0; i < 30; i++)
+  {
+    for(int j = 0; j < 36; j++)
+    {
+       dots[i][j] = new Dot();
+    }
+  }
+  Dotdef();
   for(int i = 0; i < walls.length; i++)
   {
    walls[i] = new Rect();
   }
-  for(int i = 0; i < 30; i++)
-   {
-     for(int j = 0; j < 36; j++)
-     {
-       dots[i][j] = new Dot();
-       dots[i][j].bool = true;
-     }
-   }
+  
   background(0);
   size(701, 900);
   textSize(30);
 
 }
-void field()
+void field(color c)
 {
    fill(0);
-   stroke(0, 0, 255);
-
+   stroke(c);
    walls[0].Show(0, 4, 28, 1, 20);
    walls[1].Show(0, 4, 1, 31, 20);
    walls[2].Show(27, 4, 1, 31, 20);
@@ -78,8 +121,8 @@ void field()
 
 }
 int csize = 22;
-int cposx = 388;
-int cposy = 612;
+int cposx = 351;
+int cposy = 688;
 float radx = 0.5;
 float rady = 5.78;
 
@@ -95,8 +138,30 @@ Up up = new Up();
 
 String after = "";
 int c;
+int boolcount = 0;
+int score = 0;
+
+boolean reload = false;
+int reloadcount = 0;
 void draw()
 {
+  if(boolcount == 244)
+  {
+    towards = "";
+    after = "";
+    dir = "";
+    count = 0;
+    reload = true;
+  }
+  if(reloadcount == 250)
+  {
+    cposx = 351;
+    cposy = 688;
+    Dotdef();
+    reloadcount = 0;
+    boolcount = 0;
+    reload = false;
+  }
   switch (dir)
   {
     case "up":
@@ -117,8 +182,40 @@ void draw()
   }
   
   background(0);
-  field();
-  int dotcount = 0;
+  color c = color(0, 0, 255);
+  if(reload)
+  {
+    reloadcount++;
+    if(reloadcount < 130)
+    {
+    c = color(0, 0, 255);
+    }
+    else if(reloadcount < 150)
+    {
+    c = color(255);
+    }
+    else if(reloadcount < 170)
+    {
+    c = color(0, 0, 255);
+    }
+     else if(reloadcount < 190)
+    {
+      c = color(255);
+    }
+    else if(reloadcount < 210)
+    {
+     c = color(0, 0, 255);
+    }
+    else if(reloadcount < 230)
+    {
+     c = color(255);
+    }
+    else if(reloadcount < 250)
+    {
+     c = color(0, 0, 255);
+    }
+  }
+  field(c);
   for(int i = 0; i < 26; i++)
    {
      for(int j = 0; j < 29; j++)
@@ -127,23 +224,35 @@ void draw()
        {
          noStroke();
         fill(255, 255, 255);
-        dots[i][j].Show(i, j, 6, 6);
+        dots[i][j].Show(i, j, 4, 4);
        }
      }
    }
    
   fill(255, 255, 0);
+  if(dir != "")
+  {
   arc(cposx, cposy, csize, csize, radx - 0.01*count, rady + 0.01*count%10);
+  }
+  else
+  {
+    circle(cposx, cposy, csize);
+  }
+  
   for(int i = 0; i < 26; i++)
    {
      for(int j = 0; j < 29; j++)
      {
-       if(get(dots[i][j].l, dots[i][j].u) != color(255, 255, 255))
+       if(get(dots[i][j].l, dots[i][j].u) != color(255, 255, 255) && dots[i][j].bool != false)
        {
          dots[i][j].bool = false;
+         score += 10;
+         boolcount++;
        }
      }
    }
+   if(dir != "")
+   {
   if(count > 50)
   {
     mouth = true;
@@ -154,12 +263,13 @@ void draw()
   }
   if(!mouth)
   {
-    count += 10;
+    count += 5;
   }
   else
   {
-    count -= 10;
+    count -= 5;
   }
+   }
   switch (after)
   {
     
@@ -184,6 +294,8 @@ void draw()
     break;
     
   }
+  fill(255);
+   text("score: " + score,20,80);
 }
 String dir = "";
 void keyPressed()
