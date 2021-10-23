@@ -1,3 +1,5 @@
+float scale = 0.8;
+
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[40];
 
@@ -60,7 +62,7 @@ void setup()
   }
   
   background(0);
-  size(710, 900);
+  size(701, 900);
   textSize(30);
 
 }
@@ -72,7 +74,7 @@ void field(color c)
    walls[1].Show(0, 4, 1, 31, 20);
    walls[2].Show(27, 4, 1, 31, 20);
    walls[3].Show(0, 34, 28, 1, 20);
-   walls[4].ShowBorder(13, 4, 2, 5, 0, 0, 20, 20);
+   walls[4].Show(13, 4, 2, 5, 20);
    walls[5].Show(2, 6, 4, 3, 20);
    walls[6].Show(7, 6, 5, 3, 20);
    walls[7].Show(16, 6, 5, 3, 20);
@@ -80,15 +82,15 @@ void field(color c)
    walls[9].Show(2, 10, 4, 2, 20);
    walls[10].Show(22, 10, 4, 2, 20);
    walls[11].Show(10, 10, 8, 2, 20);
-   walls[12].ShowBorder(0, 13, 6, 5, 20, 0, 20, 0);//
+   walls[12].Show(1, 13, 5, 5, 20);
    walls[13].Show(7, 10, 2, 8, 20);
    walls[14].Show(7, 13, 5, 2, 20);
    walls[15].Show(13, 10, 2, 5, 20);
    walls[16].Show(19, 10, 2, 8, 20);
    walls[17].Show(16, 13, 5, 2, 20);
-   walls[18].ShowBorder(22, 13, 6, 5, 0, 20, 0, 20);//
-   walls[19].ShowBorder(0, 19, 6, 5, 20, 0, 20, 0);//
-   walls[20].ShowBorder(22, 19, 6, 5, 0, 20, 0, 20);//
+   walls[18].Show(22, 13, 5, 5, 20);
+   walls[19].Show(1, 19, 5, 5, 20);
+   walls[20].Show(22, 19, 5, 5, 20);
 
    walls[21].Show(7, 19, 2, 5, 20);
    walls[22].Show(19, 19, 2, 5, 20);
@@ -100,8 +102,8 @@ void field(color c)
    walls[28].Show(16, 25, 5, 2, 20);
    walls[29].Show(22, 25, 4, 2, 20);
    walls[30].Show(22, 25, 2, 5, 20);
-   walls[31].ShowBorder(0, 28, 3, 2, 20, 0, 20, 0);//
-   walls[32].ShowBorder(25, 28, 3, 2, 0, 20, 0, 20);//
+   walls[31].Show(0, 28, 3, 2, 20);
+   walls[32].Show(25, 28, 3, 2, 20);
    walls[33].Show(2, 31, 10, 2, 20);
    walls[34].Show(16, 31, 10, 2, 20);
    walls[35].Show(10, 28, 8, 2, 20);
@@ -113,7 +115,7 @@ void field(color c)
    noStroke();
    for(int i = 0; i < walls.length; i++)
    {
-      rect(walls[i].l+11, walls[i].u+11, walls[i].r-walls[i].l-21, walls[i].d-walls[i].u-21, 20); 
+      rect(walls[i].l+1, walls[i].u+1, walls[i].r-walls[i].l-1, walls[i].d-walls[i].u-1, 20); 
    }
 
 
@@ -145,6 +147,7 @@ boolean reload = false;
 int reloadcount = 0;
 void draw()
 {
+  scale(scale);
   if(boolcount == 244)
   {
     towards = "";
@@ -242,8 +245,8 @@ void draw()
   for(int i = 0; i < 26; i++)
    {
      for(int j = 0; j < 29; j++)
-     {
-       if(get(dots[i][j].l, dots[i][j].u) != color(255, 255, 255) && dots[i][j].bool != false)
+     {       
+       if(dots[i][j].Intersects() && dots[i][j].bool)
        {
          dots[i][j].bool = false;
          score += 10;
