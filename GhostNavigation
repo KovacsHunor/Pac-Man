@@ -1,0 +1,154 @@
+void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van
+{
+  if(ghost.PosX % 25 == 0 || ghost.PosX % 25 == 1 || ghost.PosX % 25 == 24 && ghost.PosY % 25 == 0 || ghost.PosY % 25 == 1 || ghost.PosY % 25 == 24)
+  {
+    if(ghost.PosX % 25 == 0 && ghost.PosY % 25 == 0 && nodes[ghost.PosX/25][ghost.PosY/25].exists)
+    {
+      ghostDecision(ghost);
+    }
+    else if(ghost.PosX % 25 == 1 && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
+    {
+      ghost.PosX--;
+      ghostDecision(ghost);
+    }
+    else if(ghost.PosX % 25 == 24 && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
+    {
+     ghost.PosX++; 
+      ghostDecision(ghost);
+    }
+    else if(ghost.PosY % 25 == 1 && nodes[ghost.PosX/25][(ghost.PosY-1)/25].exists)
+    {
+     ghost.PosY--; 
+      ghostDecision(ghost);
+    }
+    else if(ghost.PosY % 25 == 24 && nodes[ghost.PosX/25][(ghost.PosY+1)/25].exists)
+    {
+     ghost.PosY++; 
+      ghostDecision(ghost);
+    }
+    else
+    {
+     ghostMovement(ghost); 
+    }
+  }
+  else
+  {
+   ghostMovement(ghost); 
+  }
+}
+
+
+
+void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
+{
+ switch(ghost.Direction)
+ {
+   case 0:
+   ghost.PosY-=2;
+   break;
+   
+   case 1:
+   ghost.PosX+=2;
+   break;
+   
+   case 2:
+   ghost.PosY+=2;
+   break;
+   
+   case 3:
+   ghost.PosX-=2;
+ }
+}
+
+
+void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy közelebb kerüljön a céljához (ha a scared phase-ben van akkor csak randoman választ irányt) majd tovább adja a ghostMovementhez
+{
+  if(ghost.phase != "scared")
+  {
+ int ghostTileX = ghost.PosX/25;
+ int ghostTileY = ghost.PosY/25;
+ float closestValue = 99999;
+ int closestDirection = -1;
+ 
+ if(nodes[ghostTileX][ghostTileY].upAccess && ghost.Direction != 2)
+ {
+  float distance = sq(ghostTileX-ghost.TargetX) + sq(ghostTileY-1-ghost.TargetY);
+  
+  if(distance < closestValue)
+  {
+    closestValue = distance;
+    closestDirection = 0;
+  }
+ }
+ 
+ 
+ if(nodes[ghostTileX][ghostTileY].leftAccess && ghost.Direction != 1)
+ {
+  float distance = sq(ghostTileX-1-ghost.TargetX) + sq(ghostTileY-ghost.TargetY);
+  
+  if(distance < closestValue)
+  {
+    closestValue = distance;
+    closestDirection = 3;
+  }
+ }
+ 
+ if(nodes[ghostTileX][ghostTileY].downAccess && ghost.Direction != 0)
+ {
+  float distance = sq(ghostTileX-ghost.TargetX) + sq(ghostTileY+1-ghost.TargetY);
+  
+  if(distance < closestValue)
+  {
+    closestValue = distance;
+    closestDirection = 2;
+  }
+ }
+ 
+  if(nodes[ghostTileX][ghostTileY].rightAccess && ghost.Direction != 3)
+ {
+  float distance = sq(ghostTileX+1-ghost.TargetX) + sq(ghostTileY-ghost.TargetY);
+  
+  if(distance < closestValue)
+  {
+    closestValue = distance;
+    closestDirection = 1;
+  }
+ }
+ ghost.Direction = closestDirection;
+  }
+  
+  else
+  {
+   while(true)
+   {
+    int rnd = int(random(4));
+    if(rnd != invert(ghost.Direction))
+    {
+      ghost.Direction = rnd;
+      break;
+    }
+   }
+  }
+ ghostMovement(ghost);
+}
+
+int invert(int number)
+{
+ switch(number)
+ {
+ case 0:
+ return 2;
+ 
+ case 1: 
+ return 3;
+ 
+ case 2:
+ return 0;
+ 
+ case 3:
+ return 1;
+ 
+ default:
+ return 0;
+ }
+}
