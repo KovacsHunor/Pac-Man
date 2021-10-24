@@ -1,6 +1,10 @@
 float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[42];
+
+Nodes[][]nodes = new Nodes[28][36];//új
+boolean[][] mapLayout = new boolean[28][36];//új
+
 void Dotdef()
 {
   for (int i = 0; i < 30; i++)
@@ -45,6 +49,14 @@ void Dotdef()
 void setup()
 {
   scale *= displayHeight / 1080f;
+  
+for(int i = 0; i < 28; i++)
+{
+  for(int f = 0; f < 36; f++)
+  {
+     nodes[i][f] = new Nodes(); //új
+  }
+}
   frameRate(100);
   for (int i = 0; i < 30; i++)
   {
@@ -64,6 +76,8 @@ void setup()
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
   textSize(30);
 }
+
+boolean firstTime = true;
 void field(color c)
 {
   fill(0);
@@ -113,6 +127,15 @@ void field(color c)
   walls[38].Show(13, 28, 2, 5, 20);
   walls[39].Show(10, 16, 8, 5, 20);
   noStroke();
+  
+  
+   if(firstTime)//új
+   {
+      determineLayout(walls);
+      crossingFinder(mapLayout);
+      firstTime = false;
+   }
+   
   
   for (int i = 0; i < walls.length; i++)
   {
