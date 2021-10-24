@@ -6,6 +6,8 @@ class Ghosts
   int PosY;
   int TargetX;
   int TargetY;
+  int Direction; //0 = up, 1 = right, 2 = down, 3 = left
+  String phase;
   void Target(Ghosts blinky, String phase)
   {
   }
