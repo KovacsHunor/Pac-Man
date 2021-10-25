@@ -1,68 +1,84 @@
+
+Blinky blinky = new Blinky();
+Inky inky = new Inky();
+Pinky pinky = new Pinky();
+Clyde clyde = new Clyde();
 float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[42];
+PImage[] deathanimation = new PImage[13];
+int lives = 3;
 
-Nodes[][]nodes = new Nodes[28][36];//új
-boolean[][] mapLayout = new boolean[28][36];//új
-
-void Dotdef()
+public void Phasecheck(Ghosts ghost)
 {
-  for (int i = 0; i < 30; i++)
+  if(ghost.phase == "scared")
   {
-    for (int j = 0; j < 36; j++)
-    {
-      dots[i][j].bool = true;
-    }
+    ghost.Ghostspeed = 1.9;
+    float avspeed = (ghost.Ghostspeed - 1) * 10;
   }
-  for (int i = 10; i < 17; i++)
-  {
-    dots[8][i].bool = false;
-  }
-  for (int i = 10; i < 16; i++)
-  {
-    dots[17][i].bool = false;
-  }
-  for (int i = 9; i < 17; i++)
-  {
-    for (int j = 8; j < 11; j++)
-    {
-      dots[i][j].bool = false;
-    }
-  }
-  for (int j = 16; j < 19; j++)
-  {
-
-    for (int i = 8; i < 18; i++)
-    {
-      dots[i][j].bool = false;
-    }
-  }
-  for (int i = 0; i < 30; i++)
-  {
-    dots[i][13].bool = false;
-  }
-  dots[12][22].bool = false;
-  dots[13][22].bool = false;
-  dots[5][13].bool = true;
-  dots[20][13].bool = true;
+}
+public void Ghostdraw()
+{
+  blinky.phase = "chase";
+  blinky.Target(blinky, "chase");
+  fill(255, 0, 0);
+  rect(blinky.PosX + 1, blinky.PosY - 4, 35, 35);
+  pinky.phase = "chase";
+  pinky.Target(blinky, "chase");
+  fill(255, 192, 203);
+  rect(pinky.PosX + 1, pinky.PosY - 4, 35, 35);
+  inky.phase = "chase";
+  inky.Target(blinky, "chase");
+  fill(100, 100, 255);
+  rect(inky.PosX + 1, inky.PosY - 4, 35, 35);
+  clyde.phase = "chase";
+  clyde.Target(blinky, "chase");
+  fill(255, 255, 100);
+  rect(clyde.PosX + 1, clyde.PosY - 4, 35, 35);
+  Phasecheck(blinky);
+  Phasecheck(pinky);
+  Phasecheck(inky);
+  Phasecheck(clyde);
+  ghostPosition(blinky);
+  ghostPosition(pinky);
+  ghostPosition(inky);
+  ghostPosition(clyde);
+  
+  Ghostteleport(blinky);
+  Ghostteleport(pinky);
+  Ghostteleport(inky);
+  Ghostteleport(clyde);
+}
+public void Ghostdata()
+{
+  blinky.PosX = 600;
+  blinky.PosY = 675;
+  blinky.Direction = 1;
+  pinky.PosX = 250;
+  pinky.PosY = 675;
+  pinky.Direction = 1;
+  inky.PosX = 400;
+  inky.PosY = 675;
+  inky.Direction = 1;
+  clyde.PosX = 250;
+  clyde.PosY = 675;
+  clyde.Direction = 1;
 }
 void setup()
 {
-  scale *= displayHeight / 1080f;
-  
-for(int i = 0; i < 28; i++)
-{
-  for(int f = 0; f < 36; f++)
+  Ghostdata();
+  for (int i = 0; i < 13; i++)
   {
-     nodes[i][f] = new Nodes(); //új
+    deathanimation[i] = loadImage("death/" +i+ ".png");
   }
-}
+  scale *= displayHeight / 1080f;
   frameRate(100);
   for (int i = 0; i < 30; i++)
   {
     for (int j = 0; j < 36; j++)
     {
       dots[i][j] = new Dot();
+      nodes[i][j] = new Nodes();
     }
   }
   Dotdef();
@@ -70,77 +86,14 @@ for(int i = 0; i < 28; i++)
   {
     walls[i] = new Rect();
   }
-
+  color c = color(0, 0, 255);
+  field(c);
+    determineLayout(walls);
+    crossingFinder(mapLayout);
   background(0);
-  surface.setSize(int(710*scale), int(900*scale));
+  surface.setSize(int(710*scale), int(930*scale));
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
   textSize(30);
-}
-
-boolean firstTime = true;
-void field(color c)
-{
-  fill(0);
-  stroke(c);
-  walls[0].Show(0, 4, 28, 1, 20);
-  walls[1].Show(0, 4, 1, 10, 20);
-  walls[40].Show(0, 20, 1, 15, 20);
-  
-  walls[2].Show(27, 4, 1, 10, 20);
-  walls[41].Show(27, 20, 1, 15, 20);
-  
-  walls[3].Show(0, 34, 28, 1, 20);
-  walls[4].ShowBorder(13, 4, 2, 5, 0, 0, 20, 20);
-  walls[5].Show(2, 6, 4, 3, 20);
-  walls[6].Show(7, 6, 5, 3, 20);
-  walls[7].Show(16, 6, 5, 3, 20);
-  walls[8].Show(22, 6, 4, 3, 20);
-  walls[9].Show(2, 10, 4, 2, 20);
-  walls[10].Show(22, 10, 4, 2, 20);
-  walls[11].Show(10, 10, 8, 2, 20);
-  walls[12].ShowBorder(0, 13, 6, 5, 20, 0, 20, 0);
-  walls[13].Show(7, 10, 2, 8, 20);
-  walls[14].Show(7, 13, 5, 2, 20);
-  walls[15].Show(13, 10, 2, 5, 20);
-  walls[16].Show(19, 10, 2, 8, 20);
-  walls[17].Show(16, 13, 5, 2, 20);
-  walls[18].ShowBorder(22, 13, 6, 5, 0, 20, 0, 20);
-  walls[19].ShowBorder(0, 19, 6, 5, 20, 0, 20, 0);
-  walls[20].ShowBorder(22, 19, 6, 5, 0, 20, 0, 20);
-  walls[21].Show(7, 19, 2, 5, 20);
-  walls[22].Show(19, 19, 2, 5, 20);
-  walls[23].Show(10, 22, 8, 2, 20);
-  walls[24].Show(13, 22, 2, 5, 20);
-  walls[25].Show(2, 25, 4, 2, 20);
-  walls[26].Show(4, 25, 2, 5, 20);
-  walls[27].Show(7, 25, 5, 2, 20);
-  walls[28].Show(16, 25, 5, 2, 20);
-  walls[29].Show(22, 25, 4, 2, 20);
-  walls[30].Show(22, 25, 2, 5, 20);
-  walls[31].ShowBorder(0, 28, 3, 2, 20, 0, 20, 0);
-  walls[32].ShowBorder(25, 28, 3, 2, 0, 20, 0, 20);
-  walls[33].Show(2, 31, 10, 2, 20);
-  walls[34].Show(16, 31, 10, 2, 20);
-  walls[35].Show(10, 28, 8, 2, 20);
-  walls[36].Show(7, 28, 2, 5, 20);
-  walls[37].Show(19, 28, 2, 5, 20);
-  walls[38].Show(13, 28, 2, 5, 20);
-  walls[39].Show(10, 16, 8, 5, 20);
-  noStroke();
-  
-  
-   if(firstTime)//új
-   {
-      determineLayout(walls);
-      crossingFinder(mapLayout);
-      firstTime = false;
-   }
-   
-  
-  for (int i = 0; i < walls.length; i++)
-  {
-    rect(walls[i].l+11, walls[i].u+11, walls[i].r-walls[i].l-21, walls[i].d-walls[i].u-21, 20);
-  }
 }
 int csize = 22;
 int cposx = 356;
@@ -158,35 +111,46 @@ String after = "";
 int c;
 int boolcount = 0;
 int score = 0;
-boolean reload = false;
 int reloadcount = 0;
+boolean death = false;
+int deathcount = 0;
+boolean makeblack = false;
+int animation = 0;
+void Ghostteleport(Ghosts ghost)
+{
+  if(ghost.PosX < 0)
+  {
+    ghost.PosX = 29*25;
+  }
+  if (ghost.PosX > 29*25)
+  {
+    ghost.PosX = 0;
+  }
+}
 void draw()
 {
-  scale(scale);
-  if(cposx < 0)
+  if(debug) //<>//
   {
-    cposx = 29*25;
+    
   }
-  if(cposx > 29*25)
+  background(0);
+  scale(scale);
+  if (cposx < 0)
+  {
+    cposx = 29*25 - 10;
+  }
+  if (cposx > 29*25 - 10)
   {
     cposx = 0;
   }
-  if (boolcount == 244)
+  if (reloadcount == 300)
   {
-    towards = "";
-    after = "";
-    dir = "";
-    count = 0;
-    reload = true;
-  }
-  if (reloadcount == 250)
-  {
-    cposx = 351;
+    makeblack = false;
+    cposx = 356;
     cposy = 688;
     Dotdef();
     reloadcount = 0;
     boolcount = 0;
-    reload = false;
   }
   switch (dir)
   {
@@ -206,11 +170,61 @@ void draw()
     left.Collide();
     break;
   }
-
-  background(0);
-  color c = color(0, 0, 255);
-  if (reload)
+  fill(255, 255, 0);
+  for (int i = 1; i < lives; i++)
   {
+    arc(i*50 - 10, 900, csize + 13, csize + 13, 0.5 - PI, 5.78 - PI);
+  }
+  /*if (blinky.GIntersects())
+  {
+    death = true;
+  }*/
+  if (death)
+  {
+    deathcount++;
+    towards = "";
+    after = "";
+    dir = "";
+    count = 0;
+  }
+  if ((float)deathcount/35 < 2 && deathcount > 0)
+  {
+    fill(255, 255, 0);
+    circle(cposx, cposy, csize + 13);
+  }
+  if ((float)deathcount/35 > 2)
+  {
+    fill(255, 255, 0);
+    arc(cposx, cposy, csize + 13, csize + 13, (float)deathcount/35 - 2 - PI/2, PI*1.5 - (float)deathcount/35 + 2);
+  }
+  if ((float)deathcount/25 > PI*1.5 + 2 && animation < 26)
+  {
+    image(deathanimation[animation/2], cposx - csize + 3, cposy - csize + 5);
+    animation++;
+  } else if ((float)deathcount/25 > 10)
+  {
+    makeblack = true;
+  }
+
+  if ((float)deathcount/25 == 15)
+  {
+    cposx = 356;
+    cposy = 688;
+    lives--;
+    animation = 0;
+    count = 0;
+    makeblack = false;
+    deathcount = 0;
+    death = false;
+  }
+
+  color c = color(0, 0, 255);
+  if (boolcount == 244)
+  {
+    towards = "";
+    after = "";
+    dir = "";
+    count = 0;
     reloadcount++;
     if (reloadcount < 130)
     {
@@ -230,9 +244,9 @@ void draw()
     } else if (reloadcount < 230)
     {
       c = color(255);
-    } else if (reloadcount < 250)
+    } else if (reloadcount < 300)
     {
-      c = color(0, 0, 255);
+      makeblack = true;
     }
   }
   field(c);
@@ -248,12 +262,12 @@ void draw()
       }
     }
   }
-
+  Ghostdraw();
   fill(255, 255, 0);
   if (dir != "")
   {
     arc(cposx, cposy, csize + 13, csize + 13, radx - 0.01*count, rady + 0.01*count%10);
-  } else
+  } else if (!death && lives > 0)
   {
     circle(cposx, cposy, csize + 13);
   }
@@ -269,7 +283,7 @@ void draw()
         boolcount++;
       }
     }
-  }
+  } //<>//
   if (dir != "")
   {
     if (count > 50)
@@ -311,28 +325,48 @@ void draw()
     break;
   }
   fill(255);
-  text("score: " + score, 20, 80);
+  text("Score: " + score, 20, 80);
+  if (lives == 0)
+  {
+    fill(255, 0, 0);
+    textSize(36); 
+    text("GAME  OVER", 245, 553);
+  }
+  if (makeblack)
+  {
+    background(0);
+  }
+  debug = false;
 }
 String dir = "";
+boolean debug = false;
 void keyPressed()
 {
-  if (keyCode == UP && after != "up")
+  if (keyCode == 'B')
   {
-    dir = "up";
-    after = dir;
-  } else if (keyCode == DOWN && after != "down")
+    debug = true;
+  }
+  if (lives > 0)
   {
-    dir = "down";
-    after = dir;
-  } else if (keyCode == RIGHT && after != "right")
-  {
-    dir = "right";
-    after = dir;
-  } else if (keyCode == LEFT && after != "left")
-  {
-    dir = "left";
-    after = dir;
+    if (keyCode == UP && after != "up")
+    {
+      dir = "up";
+      after = dir;
+    } else if (keyCode == DOWN && after != "down")
+    {
+      dir = "down";
+      after = dir;
+    } else if (keyCode == RIGHT && after != "right")
+    {
+      dir = "right";
+      after = dir;
+    } else if (keyCode == LEFT && after != "left")
+    {
+      dir = "left";
+      after = dir;
+    }
   }
 }
 int speed = 2;
+
 String towards = "";

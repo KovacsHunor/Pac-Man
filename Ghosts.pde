@@ -1,5 +1,6 @@
 class Ghosts
 {
+  float Ghostspeed = 2;
   int CaughtX = 13;
   int CaughtY = 14;
   int PosX;
@@ -10,6 +11,15 @@ class Ghosts
   String phase;
   void Target(Ghosts blinky, String phase)
   {
+  }
+  public boolean GIntersects()
+  {
+    boolean bool = false;
+    if (cposx-csize/2 < PosX +38 && cposx+csize/2 > PosX && cposy-csize/2 < PosY + 38 && cposy+csize/2 > PosY)
+    {
+      bool = true;
+    }
+    return bool;
   }
   boolean Collides()
   {
@@ -25,13 +35,13 @@ class Blinky extends Ghosts
 {
   int ScatterX = 25;
   int ScatterY = -1;
-  void Target(Ghosts blinky, String phase)
+  public void Target(Ghosts blinky, String phase)
   {
     switch(phase)
     {
     case "chase":
-      TargetX = cposx/25;
-      TargetY = cposy/25;
+      TargetX = (cposx - cposx%25)/25;
+      TargetY = (cposy - cposy%25)/25;
       break;
 
     case "scatter":
@@ -94,8 +104,8 @@ class Pinky extends Ghosts
 }
 class Inky extends Ghosts
 {
-  int ScatterX = 34;
-  int ScatterY = 27;
+  int ScatterX = 27;
+  int ScatterY = 34;
   void Target(Ghosts blinky, String phase)
   {
     switch(phase)
@@ -122,8 +132,8 @@ class Inky extends Ghosts
         break;
       }
 
-      TargetX = blinky.PosX/25 - 2*(cposx/25 + deltaX);
-      TargetY = blinky.PosY/25 - 2*(cposy/25 + deltaY);
+      TargetX = cposx/25 + (cposx/25 - blinky.PosX/25);
+      TargetY = cposy/25 + (cposy/25 - blinky.PosY/25);
       break;
 
     case "scatter":
@@ -147,7 +157,7 @@ class Clyde extends Ghosts
     switch(phase)
     {
     case "chase":
-      if (sqrt(sq(PosX - cposx) + sq(PosY - cposy)) <= 8)
+      if (sqrt(sq(PosX/25 - cposx/25) + sq(PosY/25 - cposy/25)) >= 8)
       {
         TargetX = cposx/25;
         TargetY = cposy/25;

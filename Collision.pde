@@ -3,66 +3,62 @@ class Collision
   public void Collide()
   {
     int z = 0;
-    for(int i = 0; i < walls.length; i++)
+    for (int i = 0; i < walls.length; i++)
     {
-     if(Bool(i))
-     {
-       z = i;
-       wall = true;
-     }
+      if (Bool(i))
+      {
+        z = i;
+        wall = true;
+      }
     }
-    if(!wall)
-     {
+    if (!wall)
+    {
       Set();
       wall = false;
       return;
-     }
-     else
-     {
-       dir = towards;
-       wall = false;
-     }
+    } else
+    {
+      dir = towards;
+      wall = false;
+    }
   }
   public void ACollide()
   {
-    for(int i = 0; i < walls.length; i++)
+    for (int i = 0; i < walls.length; i++)
     {
-     if(Bool(i))
-     {
-       wall = true;
-     }
+      if (Bool(i))
+      {
+        wall = true;
+      }
     }
-    if(!wall)
-     {
-       if(after != "")
-       {
+    if (!wall)
+    {
+      if (after != "")
+      {
         dir = after;
-       }
-    wall = false;
-    return;
-     }
-     else
-     {
-       wall = false;
-     }
+      }
+      wall = false;
+      return;
+    } else
+    {
+      wall = false;
+    }
   }
-  
+
   boolean Bool(int i)
   {
     return false;
   }
   void Tri()
   {
-    
   }
   void Set()
   {
-    
   }
 }
 class Left extends Collision
 {
-  
+
   boolean Bool(int i)
   {
     return  cposx-csize/2 < walls[i].r + speed + 1 && cposx - csize/2 > walls[i].l && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
@@ -76,12 +72,12 @@ class Left extends Collision
   }
   void Tri()
   {
-    triangle(cposx - 30, cposy, cposx - 25, cposy + 5, cposx - 25, cposy - 5);
+    triangle(cposx - 38, cposy, cposx - 32, cposy + 6, cposx - 32, cposy - 6);
   }
 }
 class Right extends Collision
 {
-  
+
   boolean Bool(int i)
   {
     return cposx+csize/2 > walls[i].l - speed - 1 && cposx + csize/2 < walls[i].r && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
@@ -95,12 +91,12 @@ class Right extends Collision
   }
   void Tri()
   {
-    triangle(cposx + 30, cposy, cposx + 25, cposy + 5, cposx + 25, cposy - 5);
+    triangle(cposx + 38, cposy, cposx + 32, cposy + 6, cposx + 32, cposy - 6);
   }
 }
 class Up extends Collision
 {
- 
+
   boolean Bool(int i)
   {
     return cposy-csize/2 < walls[i].d + speed + 1 && cposy - csize/2 > walls[i].u && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
@@ -114,12 +110,12 @@ class Up extends Collision
   }
   void Tri()
   {
-    triangle(cposx, cposy - 30, cposx + 5, cposy - 25, cposx - 5, cposy - 25);
+    triangle(cposx, cposy - 38, cposx + 6, cposy - 32, cposx - 6, cposy - 32);
   }
 }
 class Down extends Collision
 {
- 
+
   boolean Bool(int i)
   {
     return cposy+csize/2 > walls[i].u - speed - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
@@ -133,6 +129,6 @@ class Down extends Collision
   }
   void Tri()
   {
-    triangle(cposx, cposy + 30, cposx + 5, cposy + 25, cposx - 5, cposy + 25);
+    triangle(cposx, cposy + 38, cposx + 6, cposy + 32, cposx - 6, cposy + 32);
   }
 }
