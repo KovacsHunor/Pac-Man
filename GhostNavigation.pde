@@ -2,99 +2,97 @@ int delta = 2;
 
 void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van //<>//
 {
-    if(ghost.PosX % 25 == 0 && ghost.PosY % 25 == 0 && nodes[ghost.PosX/25][ghost.PosY/25].exists)
+  if (ghost.cooldown < 4)
+  {
+    ghost.cooldown++;
+  }
+    if (ghost.PosX % 25 == 0 && ghost.PosY % 25 == 0 && nodes[ghost.PosX/25][ghost.PosY/25].exists)
     {
       ghostDecision(ghost);
-    }
-    else if(ghost.PosX % 25 < delta && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
+    } 
+    else if (ghost.PosX % 25 < delta && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
     {
       ghost.PosX-= ghost.PosX % 25;
       ghostDecision(ghost);
-    }
-    else if(ghost.PosX % 25 > 25-delta && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
+    } 
+    else if (25-(ghost.PosX % 25) < delta && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
     {
-     ghost.PosX+= 25 - ghost.PosX % 25; 
+      ghost.PosX+= 25 - ghost.PosX % 25;
       ghostDecision(ghost);
-    }
-    else if(ghost.PosY % 25 < delta && nodes[ghost.PosX/25][(ghost.PosY-1)/25].exists)
+    } 
+    else if (ghost.PosY % 25 < delta && nodes[ghost.PosX/25][(ghost.PosY-1)/25].exists)
     {
-     ghost.PosY-= ghost.PosY % 25; 
+      ghost.PosY-= ghost.PosY % 25;
       ghostDecision(ghost);
-    }
-    else if(ghost.PosY % 25 > 25-delta && nodes[ghost.PosX/25][(ghost.PosY+1)/25].exists)
+    } 
+    else if (25-(ghost.PosY % 25) < delta && nodes[ghost.PosX/25][(ghost.PosY+1)/25].exists)
     {
-     ghost.PosY+= 25 - ghost.PosY % 25; 
+      ghost.PosY+= 25 - ghost.PosY % 25;
       ghostDecision(ghost);
-    }
-    else
-    {
-     ghostMovement(ghost); 
-    }
+    } 
+  else
+  {
+    ghostMovement(ghost);
+  }
 }
 
 
 
 void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
 {
- switch(ghost.Direction)
+  if (ghost.scount < ghost.avspeed)
+  {
+    delta = 2;
+  } else
+  {
+    delta = 1;
+  }
+  switch(ghost.Direction)
   {
   case 0:
-    if(ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.avspeed)
     {
       ghost.PosY -= 2;
-      delta = 2;
-    }
-    else
+    } else
     {
       ghost.PosY -= 1;
-      delta = 1;
     }
     break;
 
   case 1:
-  if(ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.avspeed)
     {
       ghost.PosX += 2;
-      delta = 2;
-    }
-    else
+    } else
     {
       ghost.PosX += 1;
-      delta = 1;
     }
     break;
 
   case 2:
-  if(ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.avspeed)
     {
       ghost.PosY += 2;
-      delta = 2;
-    }
-    else
+    } else
     {
       ghost.PosY += 1;
-      delta = 1;
     }
     break;
 
   case 3:
-  if(ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.avspeed)
     {
       ghost.PosX -= 2;
-      delta = 2;
-    }
-    else
+    } else
     {
       ghost.PosX -= 1;
-      delta = 1;
     }
-
   }
   ghost.scount++;
-  if(ghost.scount == 10)
-    {
-      ghost.scount = 0;
-    }
+  if (ghost.scount == 10)
+  {
+    ghost.scount = 0;
+  }
 }
 
 
@@ -150,43 +148,51 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
         closestDirection = 1;
       }
     }
-    ghost.Direction = closestDirection;
+    if (ghost.cooldown == 4)
+    {
+      ghost.Direction = closestDirection;
+      ghost.cooldown = 0;
+    }
   } else
   {
     int k = 0;
     while (k == 0)
     {
       int rnd = int(random(4));
-      if (rnd != invert(ghost.Direction))
+      if (rnd != (ghost.Direction + 2) % 4)
       {
         switch(rnd)
         {
         case 0:
-          if (nodes[ghostTileX][ghostTileY].upAccess)
+          if (nodes[ghostTileX][ghostTileY].upAccess && ghost.cooldown == 4)
           {
             ghost.Direction = rnd;
             k++;
+            ghost.cooldown = 0;
           }
           break;
         case 1:
-          if (nodes[ghostTileX][ghostTileY].rightAccess)
+          if (nodes[ghostTileX][ghostTileY].rightAccess && ghost.cooldown == 4)
           {
             ghost.Direction = rnd;
             k++;
+            ghost.cooldown = 0;
           }
           break;
         case 2:
-          if (nodes[ghostTileX][ghostTileY].downAccess)
+          if (nodes[ghostTileX][ghostTileY].downAccess && ghost.cooldown == 4)
           {
             ghost.Direction = rnd;
             k++;
+            ghost.cooldown = 0;
           }
           break;
         case 3:
-          if (nodes[ghostTileX][ghostTileY].leftAccess)
+          if (nodes[ghostTileX][ghostTileY].leftAccess && ghost.cooldown == 4)
           {
             ghost.Direction = rnd;
             k++;
+            ghost.cooldown = 0;
           }
           break;
         }
@@ -195,25 +201,4 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
     k = 0;
   }
   ghostMovement(ghost);
-}
-
-int invert(int number)
-{
-  switch(number)
-  {
-  case 0:
-    return 2;
-
-  case 1: 
-    return 3;
-
-  case 2:
-    return 0;
-
-  case 3:
-    return 1;
-
-  default:
-    return 0;
-  }
 }
