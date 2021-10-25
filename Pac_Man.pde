@@ -12,12 +12,12 @@ public void Phasecheck(Ghosts ghost)
 {
   if (ghost.phase == "scared")
   {
-    ghost.Ghostspeed = 1.4;
+    ghost.Ghostspeed = 1.5;
     ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
   }
   else
   {
-    ghost.Ghostspeed = 2;
+    ghost.Ghostspeed = 1.8;
     ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
   }
 }
@@ -297,7 +297,7 @@ void draw()
         }
       }
     }
-  } //<>//
+  }
   if (dir != "")
   {
     if (count > 50)
