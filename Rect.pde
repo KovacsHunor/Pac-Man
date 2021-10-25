@@ -57,12 +57,24 @@ public class Rect
 
 class Dot extends Rect
 {
+  boolean big;
   void Show(int px, int py, int sx, int sy)
   {
-    rect((px + 1)*25 + 17, (py + 5)*25 + 12, sx, sy);
-    l = (px + 1)*25 + 17;
-    u = (py + 5)*25 + 12;
-    r = l+sx;
-    d = u+sy;
+    if(dots[px][py].big)
+    {
+      circle((px + 1)*25 + 19, (py + 5)*25 + 14, 20);
+      l = (px + 1)*25 + 17;
+      u = (py + 5)*25 + 12;
+      r = l+sx;
+      d = u+sy;
+    }
+    else
+    {
+      rect((px + 1)*25 + 17, (py + 5)*25 + 12, sx, sy);
+      l = (px + 1)*25 + 17;
+      u = (py + 5)*25 + 12;
+      r = l+sx;
+      d = u+sy;
+    }
   }
 }
