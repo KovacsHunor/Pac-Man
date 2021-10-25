@@ -1,5 +1,6 @@
 class Ghosts
 {
+  int cooldown = 4;
   float Ghostspeed;
   int avspeed;
   int CaughtX = 13;
@@ -10,7 +11,7 @@ class Ghosts
   int TargetY;
   int Direction; //0 = up, 1 = right, 2 = down, 3 = left
   String phase;
-  int scount;
+  int scount;  
   void Target()
   {
   }
@@ -119,6 +120,7 @@ class Inky extends Ghosts
       {
       case "up":
         deltaY = -2;
+        deltaX = -2;
         break;
 
       case "down":
