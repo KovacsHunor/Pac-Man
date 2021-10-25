@@ -1,4 +1,3 @@
-
 Blinky blinky = new Blinky();
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
@@ -9,30 +8,30 @@ Rect[] walls = new Rect[42];
 PImage[] deathanimation = new PImage[13];
 int lives = 3;
 
+
 public void Phasecheck(Ghosts ghost)
 {
-  if(ghost.phase == "scared")
+  if(ghost.phase == "")
   {
     ghost.Ghostspeed = 1.9;
     float avspeed = (ghost.Ghostspeed - 1) * 10;
   }
 }
+public void Phase(String phase)
+{
+  blinky.phase = phase;
+  pinky.phase = phase;
+  inky.phase = phase;
+  clyde.phase = phase;
+}
 public void Ghostdraw()
 {
-  blinky.phase = "chase";
-  blinky.Target(blinky, "chase");
   fill(255, 0, 0);
   rect(blinky.PosX + 1, blinky.PosY - 4, 35, 35);
-  pinky.phase = "chase";
-  pinky.Target(blinky, "chase");
   fill(255, 192, 203);
   rect(pinky.PosX + 1, pinky.PosY - 4, 35, 35);
-  inky.phase = "chase";
-  inky.Target(blinky, "chase");
   fill(100, 100, 255);
   rect(inky.PosX + 1, inky.PosY - 4, 35, 35);
-  clyde.phase = "chase";
-  clyde.Target(blinky, "chase");
   fill(255, 255, 100);
   rect(clyde.PosX + 1, clyde.PosY - 4, 35, 35);
   Phasecheck(blinky);
@@ -48,6 +47,11 @@ public void Ghostdraw()
   Ghostteleport(pinky);
   Ghostteleport(inky);
   Ghostteleport(clyde);
+  
+  blinky.Target(blinky, blinky.phase);
+  pinky.Target(blinky, pinky.phase);
+  inky.Target(blinky, inky.phase);
+  clyde.Target(blinky, clyde.phase);
 }
 public void Ghostdata()
 {
@@ -94,6 +98,7 @@ void setup()
   surface.setSize(int(710*scale), int(930*scale));
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
   textSize(30);
+  Phase("chase");
 }
 int csize = 22;
 int cposx = 356;
@@ -278,9 +283,19 @@ void draw()
     {
       if (dots[i][j].Intersects() && dots[i][j].bool)
       {
-        dots[i][j].bool = false;
-        score += 10;
-        boolcount++;
+        if(dots[i][j].big)
+        {
+          dots[i][j].bool = false;
+          score += 50;
+          boolcount++;
+          Phase("scared");
+        }
+        else
+        {
+          dots[i][j].bool = false;
+          score += 10;
+          boolcount++;
+        }
       }
     }
   } //<>//
