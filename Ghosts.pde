@@ -1,6 +1,7 @@
 class Ghosts
 {
-  float Ghostspeed = 2;
+  float Ghostspeed;
+  int avspeed;
   int CaughtX = 13;
   int CaughtY = 14;
   int PosX;
@@ -9,7 +10,8 @@ class Ghosts
   int TargetY;
   int Direction; //0 = up, 1 = right, 2 = down, 3 = left
   String phase;
-  void Target(Ghosts blinky, String phase)
+  int scount;
+  void Target()
   {
   }
   public boolean GIntersects()
@@ -35,7 +37,7 @@ class Blinky extends Ghosts
 {
   int ScatterX = 25;
   int ScatterY = -1;
-  public void Target(Ghosts blinky, String phase)
+  public void Target()
   {
     switch(phase)
     {
@@ -60,7 +62,7 @@ class Pinky extends Ghosts
 {
   int ScatterX = 2;
   int ScatterY = -1;
-  void Target(Ghosts blinky, String phase)
+  void Target()
   {
     switch(phase)
     {
@@ -106,7 +108,7 @@ class Inky extends Ghosts
 {
   int ScatterX = 27;
   int ScatterY = 34;
-  void Target(Ghosts blinky, String phase)
+  void Target()
   {
     switch(phase)
     {
@@ -152,7 +154,7 @@ class Clyde extends Ghosts
 {
   int ScatterX = 0;
   int ScatterY = 34;
-  void Target(Ghosts blinky, String phase)
+  void Target()
   {
     switch(phase)
     {

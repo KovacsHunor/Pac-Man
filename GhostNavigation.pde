@@ -1,13 +1,13 @@
 
-void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van //<>// //<>// //<>//
-{ //<>//
+void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van //<>// //<>//
+{
     if(ghost.PosX % 25 == 0 && ghost.PosY % 25 == 0 && nodes[ghost.PosX/25][ghost.PosY/25].exists)
     {
       ghostDecision(ghost);
     }
     else if(ghost.PosX % 25 < ghost.Ghostspeed && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
     {
-      ghost.PosX-= ghost.PosX % 25; //<>//
+      ghost.PosX-= ghost.PosX % 25;
       ghostDecision(ghost);
     }
     else if(ghost.PosX % 25 > 25-ghost.Ghostspeed && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
@@ -35,23 +35,57 @@ void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől f
 
 void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
 {
-  switch(ghost.Direction)
+ switch(ghost.Direction)
   {
   case 0:
-    ghost.PosY -= ghost.Ghostspeed;
+    if(ghost.scount < ghost.avspeed)
+    {
+      ghost.PosY -= 2;
+    }
+    else
+    {
+      ghost.PosY -= 1;
+    }
     break;
 
   case 1:
-    ghost.PosX += ghost.Ghostspeed;
+  if(ghost.scount < ghost.avspeed)
+    {
+      ghost.PosX += 2;
+    }
+    else
+    {
+      ghost.PosX += 1;
+    }
     break;
 
   case 2:
-    ghost.PosY += ghost.Ghostspeed;
+  if(ghost.scount < ghost.avspeed)
+    {
+      ghost.PosY += 2;
+    }
+    else
+    {
+      ghost.PosY += 1;
+    }
     break;
 
   case 3:
-    ghost.PosX -= ghost.Ghostspeed;
+  if(ghost.scount < ghost.avspeed)
+    {
+      ghost.PosX -= 2;
+    }
+    else
+    {
+      ghost.PosX -= 1;
+    }
+
   }
+  ghost.scount++;
+  if(ghost.scount == 11)
+    {
+      ghost.scount = 0;
+    }
 }
 
 

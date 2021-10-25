@@ -1,4 +1,4 @@
-public class Rect
+class Rect
 {
   int r;
   int l;

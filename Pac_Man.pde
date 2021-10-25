@@ -8,13 +8,17 @@ Rect[] walls = new Rect[42];
 PImage[] deathanimation = new PImage[13];
 int lives = 3;
 
-
 public void Phasecheck(Ghosts ghost)
 {
-  if(ghost.phase == "")
+  if (ghost.phase == "scared")
   {
-    ghost.Ghostspeed = 1.9;
-    float avspeed = (ghost.Ghostspeed - 1) * 10;
+    ghost.Ghostspeed = 1.4;
+    ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
+  }
+  else
+  {
+    ghost.Ghostspeed = 2;
+    ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
   }
 }
 public void Phase(String phase)
@@ -42,16 +46,16 @@ public void Ghostdraw()
   ghostPosition(pinky);
   ghostPosition(inky);
   ghostPosition(clyde);
-  
+
   Ghostteleport(blinky);
   Ghostteleport(pinky);
   Ghostteleport(inky);
   Ghostteleport(clyde);
-  
-  blinky.Target(blinky, blinky.phase);
-  pinky.Target(blinky, pinky.phase);
-  inky.Target(blinky, inky.phase);
-  clyde.Target(blinky, clyde.phase);
+
+  blinky.Target();
+  pinky.Target();
+  inky.Target();
+  clyde.Target();
 }
 public void Ghostdata()
 {
@@ -92,8 +96,8 @@ void setup()
   }
   color c = color(0, 0, 255);
   field(c);
-    determineLayout(walls);
-    crossingFinder(mapLayout);
+  determineLayout(walls);
+  crossingFinder(mapLayout);
   background(0);
   surface.setSize(int(710*scale), int(930*scale));
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
@@ -123,7 +127,7 @@ boolean makeblack = false;
 int animation = 0;
 void Ghostteleport(Ghosts ghost)
 {
-  if(ghost.PosX < 0)
+  if (ghost.PosX < 0)
   {
     ghost.PosX = 29*25;
   }
@@ -134,10 +138,6 @@ void Ghostteleport(Ghosts ghost)
 }
 void draw()
 {
-  if(debug) //<>//
-  {
-    
-  }
   background(0);
   scale(scale);
   if (cposx < 0)
@@ -181,9 +181,9 @@ void draw()
     arc(i*50 - 10, 900, csize + 13, csize + 13, 0.5 - PI, 5.78 - PI);
   }
   /*if (blinky.GIntersects())
-  {
-    death = true;
-  }*/
+   {
+   death = true;
+   }*/
   if (death)
   {
     deathcount++;
@@ -283,14 +283,13 @@ void draw()
     {
       if (dots[i][j].Intersects() && dots[i][j].bool)
       {
-        if(dots[i][j].big)
+        if (dots[i][j].big)
         {
           dots[i][j].bool = false;
           score += 50;
           boolcount++;
           Phase("scared");
-        }
-        else
+        } else
         {
           dots[i][j].bool = false;
           score += 10;
