@@ -1,4 +1,3 @@
-
 void Dotdef()
 {
   for (int i = 0; i < 30; i++)
@@ -6,6 +5,7 @@ void Dotdef()
     for (int j = 0; j < 36; j++)
     {
       dots[i][j].bool = true;
+      dots[i][j].big = false;
     }
   }
   for (int i = 10; i < 17; i++)
@@ -39,6 +39,11 @@ void Dotdef()
   dots[13][22].bool = false;
   dots[5][13].bool = true;
   dots[20][13].bool = true;
+  
+  dots[0][2].big = true;
+  dots[25][2].big = true;
+  dots[0][22].big = true;
+  dots[25][22].big = true;
 }
 void field(color c)
 {
