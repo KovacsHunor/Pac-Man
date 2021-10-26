@@ -1,8 +1,9 @@
 class Ghosts
 {
-  int cooldown = 4;
+  int cooldown = 3;
   float Ghostspeed;
-  int avspeed;
+  int roundDownSpeed;
+  int decimalSpeed;
   int CaughtX = 13;
   int CaughtY = 14;
   int PosX;
