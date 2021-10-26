@@ -8,13 +8,24 @@ Rect[] walls = new Rect[42];
 PImage[] deathanimation = new PImage[13];
 int lives = 3;
 
-public void Phasecheck(Ghosts ghost)
+public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
-  if (ghost.phase == "scared")
+  if(ghost.wantsToTurn && ghost.cooldown == 3)
+  {
+    ghost.Direction = (ghost.Direction + 2) % 4;
+    ghost.wantsToTurn = false;
+    ghost.cooldown = 0;
+  }
+  if (ghost.scared)
   {
     ghost.Ghostspeed = 1.5;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
     ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
+    if(ghost.Intersects())
+    {
+      ghost.caught = true;
+    }
+    
   }
   else
   {
@@ -22,14 +33,19 @@ public void Phasecheck(Ghosts ghost)
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
     ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
   }
+  if(ghost.caught)
+  {
+    ghost.Ghostspeed = 2;
+    ghost.roundDownSpeed = int(ghost.Ghostspeed);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.scared = false;
+    if(ghost.CaughtX == ghost.PosX/25 && ghost.CaughtY == ghost.PosY/25)
+    {
+      ghost.caught = false;
+    }
+  }
 }
-public void Phase(String phase)
-{
-  blinky.phase = phase;
-  pinky.phase = phase;
-  inky.phase = phase;
-  clyde.phase = phase;
-}
+
 public void Ghostdraw()
 {
   fill(255, 0, 0);
@@ -40,10 +56,10 @@ public void Ghostdraw()
   rect(inky.PosX + 1, inky.PosY - 4, 35, 35);
   fill(255, 255, 100);
   rect(clyde.PosX + 1, clyde.PosY - 4, 35, 35);
-  Phasecheck(blinky);
-  Phasecheck(pinky);
-  Phasecheck(inky);
-  Phasecheck(clyde);
+  Phasecheck(blinky, blinky.wantsToTurn);
+  Phasecheck(pinky, pinky.wantsToTurn);
+  Phasecheck(inky, inky.wantsToTurn);
+  Phasecheck(clyde, clyde.wantsToTurn);
   ghostPosition(blinky);
   ghostPosition(pinky);
   ghostPosition(inky);
@@ -104,7 +120,15 @@ void setup()
   surface.setSize(int(710*scale), int(930*scale));
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
   textSize(30);
-  Phase("chase");
+  blinky.phase = "chase";
+  pinky.phase = "chase";
+  inky.phase = "chase";
+  clyde.phase = "chase";
+  
+  blinky.caught = true;
+  //pinky.caught = true;
+  //inky.caught = true;
+  //clyde.caught = true;
 }
 int csize = 22;
 int cposx = 356;
@@ -290,7 +314,10 @@ void draw()
           dots[i][j].bool = false;
           score += 50;
           boolcount++;
-          Phase("scared");
+          blinky.Phase("scared");
+          pinky.Phase("scared");
+          inky.Phase("scared");
+          clyde.Phase("scared");
         } else
         {
           dots[i][j].bool = false;
