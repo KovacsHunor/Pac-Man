@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky();
+Blinky blinky = new Blinky(); //<>//
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -13,6 +13,10 @@ int level = 1;
 String swap = "7,20,7,20,5,20,5";
 String swap24 = "7,20,7,20,5,1033.234,0.002";
 String swap5 = "5,20,5,20,5,1037.234,0.002";
+
+String frightentime = "6,5,4,3,2,5,2,2,1,5,2,1,1,3,1,1,0,1";
+
+int numCaught = 0;
 
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
@@ -30,6 +34,8 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     if (ghost.Intersects())
     {
       ghost.caught = true;
+      numCaught++;
+      score += 100*(2^numCaught);
     }
   } else
   {
@@ -79,12 +85,52 @@ public void Ghostdata()
 public void Ghostgraphic()
 {
   fill(255, 0, 0);
+  if(blinky.scared)
+  {
+    if(!flashbool)
+    {
+      fill(0,0,255);
+    } else
+    {
+      fill(255);
+    }
+  }
   rect(blinky.PosX + 1, blinky.PosY - 4, 35, 35);
   fill(255, 192, 203);
+  if(pinky.scared)
+  {
+    if(!flashbool)
+    {
+      fill(0,0,255);
+    } else
+    {
+      fill(255);
+    }
+  }
   rect(pinky.PosX + 1, pinky.PosY - 4, 35, 35);
-  fill(100, 100, 255);
+  fill(0, 255, 255);
+  if(inky.scared)
+  {
+    if(!flashbool)
+    {
+      fill(0,0,255);
+    } else
+    {
+      fill(255);
+    }
+  }
   rect(inky.PosX + 1, inky.PosY - 4, 35, 35);
   fill(255, 255, 100);
+  if(clyde.scared)
+  {
+    if(!flashbool)
+    {
+      fill(0,0,255);
+    } else
+    {
+      fill(255);
+    }
+  }
   rect(clyde.PosX + 1, clyde.PosY - 4, 35, 35);
 }
 public void Ghostdraw(Ghosts ghost)
@@ -175,10 +221,32 @@ int housecount;
 int timer = 0;
 int index = 0;
 
+int frightened = 0;
+int flash = 0;
+boolean flashbool = false;
+
 void draw()
 {
   background(0);
-  text(timer/100,120,50);
+  if(frightened > 0)
+  {
+    frightened--;
+    if(frightened < 225)
+    {
+      flash = (flash+1)%25;
+      if(flash == 0)
+      {
+        flashbool = !flashbool;
+      }
+    }
+  }
+  else
+  {
+    blinky.scared = false;
+    pinky.scared = false;
+    inky.scared = false;
+    clyde.scared = false;
+  }
   if(index < split(swap, ',').length)
   {
     if (timer < int(float(split(swap, ',')[index])*100))
@@ -407,6 +475,7 @@ void draw()
       {
         if (dots[i][j].big)
         {
+          flashbool = false;
           dots[i][j].bool = false;
           score += 50;
           boolcount++;
@@ -414,6 +483,7 @@ void draw()
           pinky.Phase("scared");
           inky.Phase("scared");
           clyde.Phase("scared");
+          frightened = int(split(frightentime,',')[level-1])*100;
         } else
         {
           dots[i][j].bool = false;
