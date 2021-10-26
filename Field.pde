@@ -1,3 +1,4 @@
+
 void Dotdef()
 {
   for (int i = 0; i < 30; i++)
@@ -92,11 +93,23 @@ void field(color c)
   walls[36].Show(7, 28, 2, 5, 20);
   walls[37].Show(19, 28, 2, 5, 20);
   walls[38].Show(13, 28, 2, 5, 20);
-  walls[39].Show(10, 16, 8, 5, 20);
+  walls[39].Show(10, 16, 8, 5, 0);
+ 
   noStroke();
 
   for (int i = 0; i < walls.length; i++)
   {
     rect(walls[i].l+11, walls[i].u+11, walls[i].r-walls[i].l-21, walls[i].d-walls[i].u-21, 20);
   }
+     stroke(0,0,255);
+      rect(10*25 + 22, 16*25 + 17, 7*25 - 9, 4*25 - 9);
+      noStroke();
+  rect(13*25 + 10, 16*25 + 10, 40, 8);
+  stroke(0,0,255);
+  line(13*25 + 10, 16*25 + 10, 13*25 + 10, 16*25 + 16);
+  line(13*25 + 50, 16*25 + 10, 13*25 + 50, 16*25 + 16);
+  noStroke();
+  fill(255,193,203);
+   rect(13*25 + 12, 16*25 + 12, 38, 4);
+  fill(0,0,0);
 }

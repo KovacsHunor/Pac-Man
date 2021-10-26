@@ -10,7 +10,7 @@ int lives = 3;
 
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
-  if(ghost.wantsToTurn && ghost.cooldown == 3)
+  if (ghost.wantsToTurn && ghost.cooldown == 3)
   {
     ghost.Direction = (ghost.Direction + 2) % 4;
     ghost.wantsToTurn = false;
@@ -21,32 +21,56 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     ghost.Ghostspeed = 1.5;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
     ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
-    if(ghost.Intersects())
+    if (ghost.Intersects())
     {
       ghost.caught = true;
     }
-    
-  }
-  else
+  } else
   {
     ghost.Ghostspeed = 1.8;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
     ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
   }
-  if(ghost.caught)
+  if (ghost.caught)
   {
     ghost.Ghostspeed = 2;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
     ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
     ghost.scared = false;
-    if(ghost.CaughtX == ghost.PosX/25 && ghost.CaughtY == ghost.PosY/25)
+    if (ghost.CaughtX == ghost.PosX/25 && ghost.CaughtY == ghost.PosY/25)
     {
       ghost.caught = false;
     }
   }
 }
+public void Outgo(Ghosts ghost)
+{
+  if (ghost.PosY > 15*25) //<>//
+  {
+    ghost.PosY-= 1;
+  } else
+  {
+    ghost.Direction = 1; //<>//
+    ghost.start = false;
+  }
+}
 
-public void Ghostdraw()
+public void Ghostdata()
+{
+  blinky.PosX = 339;
+  blinky.PosY = 375;
+  //  blinky.Direction = 1;
+  pinky.PosX = 339;
+  pinky.PosY = 450;
+  //pinky.Direction = 1;
+  inky.PosX = 288;
+  inky.PosY = 450;
+  //inky.Direction = 1;
+  clyde.PosX = 390;
+  clyde.PosY = 450;
+  //clyde.Direction = 1;
+}
+public void Ghostgraphic()
 {
   fill(255, 0, 0);
   rect(blinky.PosX + 1, blinky.PosY - 4, 35, 35);
@@ -56,39 +80,16 @@ public void Ghostdraw()
   rect(inky.PosX + 1, inky.PosY - 4, 35, 35);
   fill(255, 255, 100);
   rect(clyde.PosX + 1, clyde.PosY - 4, 35, 35);
-  Phasecheck(blinky, blinky.wantsToTurn);
-  Phasecheck(pinky, pinky.wantsToTurn);
-  Phasecheck(inky, inky.wantsToTurn);
-  Phasecheck(clyde, clyde.wantsToTurn);
-  ghostPosition(blinky);
-  ghostPosition(pinky);
-  ghostPosition(inky);
-  ghostPosition(clyde);
-
-  Ghostteleport(blinky);
-  Ghostteleport(pinky);
-  Ghostteleport(inky);
-  Ghostteleport(clyde);
-
-  blinky.Target();
-  pinky.Target();
-  inky.Target();
-  clyde.Target();
 }
-public void Ghostdata()
+public void Ghostdraw(Ghosts ghost)
 {
-  blinky.PosX = 600;
-  blinky.PosY = 675;
-  blinky.Direction = 1;
-  pinky.PosX = 250;
-  pinky.PosY = 675;
-  pinky.Direction = 1;
-  inky.PosX = 400;
-  inky.PosY = 675;
-  inky.Direction = 1;
-  clyde.PosX = 250;
-  clyde.PosY = 675;
-  clyde.Direction = 1;
+  if (!ghost.start)
+  {
+    Phasecheck(ghost, ghost.wantsToTurn);
+    ghostPosition(ghost);
+    Ghostteleport(ghost);
+    ghost.Target();
+  }
 }
 void setup()
 {
@@ -124,8 +125,8 @@ void setup()
   pinky.phase = "chase";
   inky.phase = "chase";
   clyde.phase = "chase";
-  
-  blinky.caught = true;
+
+  //blinky.caught = true;
   //pinky.caught = true;
   //inky.caught = true;
   //clyde.caught = true;
@@ -162,10 +163,51 @@ void Ghostteleport(Ghosts ghost)
     ghost.PosX = 0;
   }
 }
+int housecount;
+
+
+
+
 void draw()
 {
-  background(0);
+   background(0);
   scale(scale);
+  if (housecount < 1397)
+  {
+    housecount++;
+  }
+  switch(housecount)
+  {
+  case 0:
+    blinky.start = true;
+    break;
+  case 400:
+    pinky.start = true;
+    break;
+  case 800:
+    inky.start = true;
+    break;
+  case 1200:
+    clyde.start = true;
+    break;
+  }
+  switch(housecount/400)
+  {
+  case 0:
+    blinky.Start();
+    break;
+  case 1:
+    pinky.Start();
+    break;
+  case 2:
+    inky.Start();
+    break;
+  case 3:
+    clyde.Start();
+    break;
+  }
+  
+ 
   if (cposx < 0)
   {
     cposx = 29*25 - 10;
@@ -293,7 +335,7 @@ void draw()
       }
     }
   }
-  Ghostdraw();
+   
   fill(255, 255, 0);
   if (dir != "")
   {
@@ -375,6 +417,11 @@ void draw()
     textSize(36); 
     text("GAME  OVER", 245, 553);
   }
+  Ghostgraphic();
+  Ghostdraw(blinky);
+  Ghostdraw(pinky);
+  Ghostdraw(inky);
+  Ghostdraw(clyde);
   if (makeblack)
   {
     background(0);

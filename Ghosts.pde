@@ -16,6 +16,7 @@ class Ghosts
   int scount;  
   boolean scared = false;
   boolean caught = false;
+  boolean start =true;
   int delta = 2;
   void Target()
   {
@@ -78,6 +79,14 @@ class Blinky extends Ghosts
       TargetY = CaughtY;
     }
   }
+  
+   public void Start()
+{
+    if(blinky.start) //<>//
+    {
+      Outgo(blinky); //<>//
+    }
+}
 }
 class Pinky extends Ghosts
 {
@@ -124,6 +133,14 @@ class Pinky extends Ghosts
       TargetY = CaughtY;
     }
   }
+  
+   public void Start()
+{
+    if(pinky.start)
+    {
+      Outgo(pinky);
+    }
+}
 }
 class Inky extends Ghosts
 {
@@ -170,6 +187,18 @@ class Inky extends Ghosts
       TargetY = CaughtY;
     }
   }
+  
+  public void Start()
+{
+  if(inky.start && inky.PosX < 13*25 + 10)
+    {
+     inky.PosX++;
+    }
+    else if(inky.start)
+    {
+      Outgo(inky);
+    }
+}
 }
 class Clyde extends Ghosts
 {
@@ -202,4 +231,15 @@ class Clyde extends Ghosts
       TargetY = CaughtY;
     }
   }
+  public void Start()
+{
+  if(clyde.start && clyde.PosX > 13*25 + 12)
+    {
+     clyde.PosX--;
+    }
+    else if(clyde.start)
+    {
+      Outgo(clyde);
+    }
+}
 }
