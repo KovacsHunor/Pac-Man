@@ -28,9 +28,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   }
   if (ghost.scared)
   {
-    ghost.Ghostspeed = 1.1;
-    ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
+    ghost.Ghostspeed = 1.1;    
     if (ghost.Intersects())
     {
       ghost.caught = true;
@@ -40,20 +38,19 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   } else
   {
     ghost.Ghostspeed = 1.8;
-    ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
   }
   if (ghost.caught)
   {
     ghost.Ghostspeed = 3;
-    ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
     ghost.scared = false;
     if (ghost.CaughtX == ghost.PosX/25 && ghost.CaughtY == ghost.PosY/25)
     {
       ghost.caught = false;
     }
   }
+  ghost.roundDownSpeed = int(ghost.Ghostspeed);
+  ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
+  ghost.randomspeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 100)-ghost.decimalSpeed*10;
 }
 public void Outgo(Ghosts ghost)
 {
