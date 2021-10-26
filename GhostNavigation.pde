@@ -196,7 +196,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
             ghost.cooldown = 0;
           }
           break;
-        } //<>//
+        }
       }
     }
     k = 0;
