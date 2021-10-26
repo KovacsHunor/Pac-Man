@@ -1,8 +1,8 @@
 int delta = 2;
 
-void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van //<>//
+void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van
 {
-  if (ghost.cooldown < 4)
+  if (ghost.cooldown < 3)
   {
     ghost.cooldown++;
   }
@@ -148,7 +148,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
         closestDirection = 1;
       }
     }
-    if (ghost.cooldown == 4)
+    if (ghost.cooldown == 3)
     {
       ghost.Direction = closestDirection;
       ghost.cooldown = 0;
@@ -156,7 +156,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
   } else
   {
     int k = 0;
-    while (k == 0)
+    while (k == 0  && ghost.cooldown == 3)
     {
       int rnd = int(random(4));
       if (rnd != (ghost.Direction + 2) % 4)
@@ -164,7 +164,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
         switch(rnd)
         {
         case 0:
-          if (nodes[ghostTileX][ghostTileY].upAccess && ghost.cooldown == 4)
+          if (nodes[ghostTileX][ghostTileY].upAccess)
           {
             ghost.Direction = rnd;
             k++;
@@ -172,7 +172,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
           }
           break;
         case 1:
-          if (nodes[ghostTileX][ghostTileY].rightAccess && ghost.cooldown == 4)
+          if (nodes[ghostTileX][ghostTileY].rightAccess)
           {
             ghost.Direction = rnd;
             k++;
@@ -180,7 +180,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
           }
           break;
         case 2:
-          if (nodes[ghostTileX][ghostTileY].downAccess && ghost.cooldown == 4)
+          if (nodes[ghostTileX][ghostTileY].downAccess)
           {
             ghost.Direction = rnd;
             k++;
@@ -188,7 +188,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
           }
           break;
         case 3:
-          if (nodes[ghostTileX][ghostTileY].leftAccess && ghost.cooldown == 4)
+          if (nodes[ghostTileX][ghostTileY].leftAccess)
           {
             ghost.Direction = rnd;
             k++;
