@@ -48,6 +48,7 @@ class Ghosts
     if(inputPhase == "scared")
     {
       scared = true;
+      numCaught = 0;
     }
     else
     {
