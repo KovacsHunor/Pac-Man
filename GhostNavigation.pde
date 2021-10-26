@@ -40,52 +40,52 @@ void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől f
 
 void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
 {
-  if (ghost.scount < ghost.avspeed)
+  if (ghost.scount < ghost.decimalSpeed)
   {
-    delta = 2;
+    delta = ghost.roundDownSpeed+1;
   } else
   {
-    delta = 1;
+    delta = ghost.roundDownSpeed;
   }
   switch(ghost.Direction)
   {
   case 0:
-    if (ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosY -= 2;
+      ghost.PosY -= ghost.roundDownSpeed+1;
     } else
     {
-      ghost.PosY -= 1;
+      ghost.PosY -= ghost.roundDownSpeed;
     }
     break;
 
   case 1:
-    if (ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosX += 2;
+      ghost.PosX += ghost.roundDownSpeed+1;
     } else
     {
-      ghost.PosX += 1;
+      ghost.PosX += ghost.roundDownSpeed;
     }
     break;
 
   case 2:
-    if (ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosY += 2;
+      ghost.PosY += ghost.roundDownSpeed+1;
     } else
     {
-      ghost.PosY += 1;
+      ghost.PosY += ghost.roundDownSpeed;
     }
     break;
 
   case 3:
-    if (ghost.scount < ghost.avspeed)
+    if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosX -= 2;
+      ghost.PosX -= ghost.roundDownSpeed+1;
     } else
     {
-      ghost.PosX -= 1;
+      ghost.PosX -= ghost.roundDownSpeed;
     }
   }
   ghost.scount++;
