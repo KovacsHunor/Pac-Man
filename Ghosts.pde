@@ -1,25 +1,29 @@
 class Ghosts
 {
+  boolean wantsToTurn = false;
   int cooldown = 3;
   float Ghostspeed;
   int roundDownSpeed;
   int decimalSpeed;
-  int CaughtX = 13;
-  int CaughtY = 14;
+  int CaughtX = 12;
+  int CaughtY = 15;
   int PosX;
   int PosY;
   int TargetX;
   int TargetY;
   int Direction; //0 = up, 1 = right, 2 = down, 3 = left
-  String phase;
+  String phase = "chase";
   int scount;  
+  boolean scared = false;
+  boolean caught = false;
+  int delta = 2;
   void Target()
   {
   }
-  public boolean GIntersects()
+  boolean Intersects()
   {
     boolean bool = false;
-    if (cposx-csize/2 < PosX +38 && cposx+csize/2 > PosX && cposy-csize/2 < PosY + 38 && cposy+csize/2 > PosY)
+    if (cposx-10/2 < PosX + 35 && cposx+10/2 > PosX && cposy-10/2 < PosY + 35 && cposy+10/2 > PosY)
     {
       bool = true;
     }
@@ -33,6 +37,21 @@ class Ghosts
       bool = true;
     }
     return bool;
+  }
+  public void Phase(String inputPhase)
+  {
+    if(phase != inputPhase && !scared)
+    {
+      wantsToTurn = true;
+    }
+    if(inputPhase == "scared")
+    {
+      scared = true;
+    }
+    else
+    {
+      phase = inputPhase;
+    }
   }
 }
 class Blinky extends Ghosts
@@ -52,11 +71,11 @@ class Blinky extends Ghosts
       TargetX = ScatterX;
       TargetY = ScatterY;
       break;
-
-    case "caught":
+    }
+    if(caught)
+    {
       TargetX = CaughtX;
       TargetY = CaughtY;
-      break;
     }
   }
 }
@@ -98,11 +117,11 @@ class Pinky extends Ghosts
       TargetX = ScatterX;
       TargetY = ScatterY;
       break;
-
-    case "caught":
+    }
+    if(caught)
+    {
       TargetX = CaughtX;
       TargetY = CaughtY;
-      break;
     }
   }
 }
@@ -136,20 +155,19 @@ class Inky extends Ghosts
         deltaX = 2;
         break;
       }
-
-      TargetX = cposx/25 + (cposx/25 - blinky.PosX/25);
-      TargetY = cposy/25 + (cposy/25 - blinky.PosY/25);
+      TargetX = cposx/25 + deltaX + (cposx/25 + deltaX - blinky.PosX/25);
+      TargetY = cposy/25 + deltaY + (cposy/25 + deltaY - blinky.PosX/25);
       break;
 
     case "scatter":
       TargetX = ScatterX;
       TargetY = ScatterY;
       break;
-
-    case "caught":
+    }
+    if(caught)
+    {
       TargetX = CaughtX;
       TargetY = CaughtY;
-      break;
     }
   }
 }
@@ -177,11 +195,11 @@ class Clyde extends Ghosts
       TargetX = ScatterX;
       TargetY = ScatterY;
       break;
-
-    case "caught":
+    }
+    if(caught)
+    {
       TargetX = CaughtX;
       TargetY = CaughtY;
-      break;
     }
   }
 }
