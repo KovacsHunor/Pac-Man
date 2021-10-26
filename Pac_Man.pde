@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky(); //<>//
+Blinky blinky = new Blinky();
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -37,7 +37,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     }
   } else
   {
-    ghost.Ghostspeed = 1.8;
+    ghost.Ghostspeed = 1.85;
   }
   if (ghost.caught)
   {
@@ -86,7 +86,7 @@ public void Ghostgraphic()
   {
     if(!flashbool)
     {
-      fill(0,0,255);
+      fill(33,33,222);
     } else
     {
       fill(255);
@@ -98,7 +98,7 @@ public void Ghostgraphic()
   {
     if(!flashbool)
     {
-      fill(0,0,255);
+      fill(33,33,222);
     } else
     {
       fill(255);
@@ -110,7 +110,7 @@ public void Ghostgraphic()
   {
     if(!flashbool)
     {
-      fill(0,0,255);
+      fill(33,33,222);
     } else
     {
       fill(255);
@@ -122,7 +122,7 @@ public void Ghostgraphic()
   {
     if(!flashbool)
     {
-      fill(0,0,255);
+      fill(33,33,222);
     } else
     {
       fill(255);
