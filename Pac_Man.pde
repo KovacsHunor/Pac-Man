@@ -13,12 +13,14 @@ public void Phasecheck(Ghosts ghost)
   if (ghost.phase == "scared")
   {
     ghost.Ghostspeed = 1.5;
-    ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.roundDownSpeed = int(ghost.Ghostspeed);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
   }
   else
   {
     ghost.Ghostspeed = 1.8;
-    ghost.avspeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.roundDownSpeed = int(ghost.Ghostspeed);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
   }
 }
 public void Phase(String phase)
