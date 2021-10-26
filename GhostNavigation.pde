@@ -1,5 +1,12 @@
+  int random = 0;
 void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van
 {
+  random = 0;
+  int rnd = int(random(100));
+  if(rnd < ghost.randomspeed)
+  {
+    random = 1;
+  }
   if (ghost.cooldown < 3)
   {
     ghost.cooldown++;
@@ -8,22 +15,22 @@ void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől f
   {
     ghostDecision(ghost);
   } 
-  else if (ghost.PosX % 25 < ghost.delta && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
+  else if (ghost.PosX % 25 < ghost.delta+random && nodes[(ghost.PosX-1)/25][ghost.PosY/25].exists)
   {
     ghost.PosX-= ghost.PosX % 25;
     ghostDecision(ghost);
   } 
-  else if (25-(ghost.PosX % 25) < ghost.delta && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
+  else if (25-(ghost.PosX % 25) < ghost.delta+random && nodes[(ghost.PosX+1)/25][ghost.PosY/25].exists)
   {
     ghost.PosX+= 25 - ghost.PosX % 25;
     ghostDecision(ghost);
   }
-  else if (ghost.PosY % 25 < ghost.delta && nodes[ghost.PosX/25][(ghost.PosY-1)/25].exists)
+  else if (ghost.PosY % 25 < ghost.delta+random && nodes[ghost.PosX/25][(ghost.PosY-1)/25].exists)
   {
     ghost.PosY-= ghost.PosY % 25;
     ghostDecision(ghost);
   }
-  else if (25-(ghost.PosY % 25) < ghost.delta && nodes[ghost.PosX/25][(ghost.PosY+1)/25].exists)
+  else if (25-(ghost.PosY % 25) < ghost.delta+random && nodes[ghost.PosX/25][(ghost.PosY+1)/25].exists)
   {
     ghost.PosY+= 25 - ghost.PosY % 25;
     ghostDecision(ghost);
@@ -38,12 +45,6 @@ void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől f
 
 void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
 {
-  int random = 0;
-  int rnd = int(random(100));
-  if(rnd < ghost.randomspeed)
-  {
-    random = 1;
-  }
   if (ghost.scount < ghost.decimalSpeed)
   {
     ghost.delta = ghost.roundDownSpeed+1+random;
