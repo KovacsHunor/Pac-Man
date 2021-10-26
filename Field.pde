@@ -9,6 +9,7 @@ void Dotdef()
       dots[i][j].big = false;
     }
   }
+  
   for (int i = 10; i < 17; i++)
   {
     dots[8][i].bool = false;
@@ -45,6 +46,7 @@ void Dotdef()
   dots[25][2].big = true;
   dots[0][22].big = true;
   dots[25][22].big = true;
+  
 }
 void field(color c)
 {

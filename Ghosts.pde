@@ -6,7 +6,7 @@ class Ghosts
   int roundDownSpeed;
   int decimalSpeed;
   int randomspeed;
-  int CaughtX = 12;
+  int CaughtX = 13;
   int CaughtY = 15;
   int PosX;
   int PosY;
@@ -17,9 +17,18 @@ class Ghosts
   int scount;  
   boolean scared = false;
   boolean caught = false;
-  boolean start =true;
+  boolean start = true;
+  boolean house;
+  boolean back;
+  color Color;
+  boolean tunnel;
   int delta = 2;
-  void Target()
+  
+  
+  void Back()
+  {
+  }
+  void Start()
   {
   }
   boolean Intersects()
@@ -31,6 +40,11 @@ class Ghosts
     }
     return bool;
   }
+  
+  void Target()
+  {
+  }
+  
   boolean Collides()
   {
     boolean bool = false;
@@ -40,7 +54,7 @@ class Ghosts
     }
     return bool;
   }
-  public void Phase(String inputPhase)
+  void Phase(String inputPhase)
   {
     if(phase != inputPhase && !scared && !caught)
     {
@@ -56,12 +70,14 @@ class Ghosts
       phase = inputPhase;
     }
   }
+  
 }
 class Blinky extends Ghosts
 {
   int ScatterX = 25;
   int ScatterY = -1;
-  public void Target()
+  
+  void Target()
   {
     switch(phase)
     {
@@ -81,13 +97,17 @@ class Blinky extends Ghosts
       TargetY = CaughtY;
     }
   }
-  
-   public void Start()
+  void Start()
 {
     if(blinky.start)
     {
       Outgo(blinky);
     }
+}
+ void Back()
+{
+  blinky.start = true;
+  blinky.back = false;
 }
 }
 class Pinky extends Ghosts
@@ -136,12 +156,17 @@ class Pinky extends Ghosts
     }
   }
   
-   public void Start()
+  void Start()
 {
     if(pinky.start)
     {
       Outgo(pinky);
     }
+}
+void Back()
+{
+  pinky.start = true; //<>//
+  pinky.back = false;
 }
 }
 class Inky extends Ghosts
@@ -190,15 +215,29 @@ class Inky extends Ghosts
     }
   }
   
-  public void Start()
+ void Start()
 {
-  if(inky.start && inky.PosX < 13*25 + 10)
+  if(inky.start && inky.PosX < 13*25 + 12)
     {
      inky.PosX++;
     }
     else if(inky.start)
     {
       Outgo(inky);
+    }
+}
+void Back()
+{
+  if(inky.PosX > 287)
+    {
+     inky.PosX-= 2;
+    }
+    else
+    {
+      inky.start = true;
+      inky.back = false;
+      inky.Direction = -1;
+      
     }
 }
 }
@@ -233,7 +272,7 @@ class Clyde extends Ghosts
       TargetY = CaughtY;
     }
   }
-  public void Start()
+ void Start()
 {
   if(clyde.start && clyde.PosX > 13*25 + 12)
     {
@@ -242,6 +281,19 @@ class Clyde extends Ghosts
     else if(clyde.start)
     {
       Outgo(clyde);
+    }
+}
+void Back()
+{
+  if(clyde.PosX < 389)
+    {
+     clyde.PosX+= 2;
+    }
+    else
+    {
+      clyde.start = true;
+      clyde.back = false;
+      clyde.Direction = -1;
     }
 }
 }
