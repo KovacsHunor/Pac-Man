@@ -82,9 +82,9 @@ class Blinky extends Ghosts
   
    public void Start()
 {
-    if(blinky.start) //<>//
+    if(blinky.start)
     {
-      Outgo(blinky); //<>//
+      Outgo(blinky);
     }
 }
 }
