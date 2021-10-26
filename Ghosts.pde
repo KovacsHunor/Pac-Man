@@ -41,7 +41,7 @@ class Ghosts
   }
   public void Phase(String inputPhase)
   {
-    if(phase != inputPhase && !scared)
+    if(phase != inputPhase && !scared && !caught)
     {
       wantsToTurn = true;
     }
