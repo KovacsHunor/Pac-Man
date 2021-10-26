@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky();
+Blinky blinky = new Blinky(); //<>//
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -20,19 +20,22 @@ int numCaught = 0;
 
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
-   if (ghost.Intersects() && !ghost.scared && !ghost.caught)
-   {
-   death = true;
-   }
+  if (ghost.Intersects() && !ghost.scared && !ghost.caught)
+  {
+    death = true;
+  }
   if (ghost.wantsToTurn && ghost.cooldown == 3 && ghost.Direction != -1)
   {
     ghost.Direction = (ghost.Direction + 2) % 4;
     ghost.wantsToTurn = false;
     ghost.cooldown = 0;
   }
-  if (ghost.scared && !ghost.tunnel)
+  if (ghost.scared)
   {
-    ghost.Ghostspeed = 1.1;
+    if(!ghost.tunnel)
+    {
+      ghost.Ghostspeed = 1.1;
+    }
     if (ghost.Intersects())
     {
       ghost.caught = true;
@@ -49,10 +52,9 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     ghost.scared = false;
     if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && ghost.CaughtY == ghost.PosY/25)
     {
-      
+
       ghost.back = true;
       ghost.caught = false;
-      
     }
   }
   ghost.roundDownSpeed = int(ghost.Ghostspeed);
@@ -69,18 +71,17 @@ public void Outgo(Ghosts ghost)
     ghost.Direction = 1;
     ghost.start = false;
     ghost.house = false;
-    
   }
 }
 
 public void InCome(Ghosts ghost)
 {
-  if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && 15*25 <= ghost.PosY && ghost.PosY < 450) //<>//
+  if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && 15*25 <= ghost.PosY && ghost.PosY < 450)
   {
     ghost.PosY+= 2;
   } else
   {
-   ghost.Back();
+    ghost.Back();
     inkytimer = 0;
     clydetimer = 0;
   }
@@ -89,8 +90,8 @@ public void UnderGhostData(Ghosts ghost)
 {
   ghost.house = false;
   ghost.Direction = -1;
-  ghost.start = true;
   ghost.back = false;
+  ghost.start = false;
   ghost.scared = false;
   ghost.caught = false;
   ghost.phase = "scatter";
@@ -116,33 +117,37 @@ public void GhostData()
 public void Ghostdraw(Ghosts ghost)
 {
   fill(ghost.Color);
-   if(ghost.scared)
+  if (ghost.scared)
   {
-    if(!flashbool)
+    if (!flashbool)
     {
-      fill(33,33,222);
+      fill(33, 33, 222);
     } else
     {
       fill(255);
     }
   }
   rect(ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-  
-    Phasecheck(ghost, ghost.wantsToTurn);
-    
+
+  Phasecheck(ghost, ghost.wantsToTurn);
+
   if (!ghost.start && !ghost.back)
   {
     ghostPosition(ghost);
     Ghostteleport(ghost);
     ghost.Target();
+    if (canMovei == 1)
+  {
+    ghost.start = true; 
+  }
   }
 }
 void setup()
 {
-blinky.Color = color(255, 0, 0);
-pinky.Color = color(255, 192, 203);
-inky.Color = color(100, 100, 255);
-clyde.Color = color(255, 255, 100);
+  blinky.Color = color(255, 0, 0);
+  pinky.Color = color(255, 192, 203);
+  inky.Color = color(100, 100, 255);
+  clyde.Color = color(255, 255, 100);
   GhostData();
   for (int i = 0; i < 13; i++)
   {
@@ -189,9 +194,9 @@ int c;
 int boolcount = 0;
 int score = 0;
 int reloadcount = 0;
-boolean death = false;
+boolean death;
 int deathcount = 0;
-boolean makeblack = false;
+boolean makeblack;
 int animation = 0;
 void Ghostteleport(Ghosts ghost)
 {
@@ -206,9 +211,9 @@ void Ghostteleport(Ghosts ghost)
 }
 void IntoHouse(Ghosts ghost)
 {
-  if(ghost.back)
+  if (ghost.back)
   {
-  InCome(ghost);
+    InCome(ghost);
   }
 }
 int housecount;
@@ -218,33 +223,32 @@ int inkytimer = 0;
 int clydetimer = 0;
 int frightened = 0;
 int flash = 0;
-boolean flashbool = false;
-
+boolean flashbool;
 
 
 void draw()
 {
-   background(0);
-    if(frightened > 0)
+
+  background(0);
+  if (frightened > 0)
   {
     frightened--;
-    if(frightened < 225)
+    if (frightened < 225)
     {
       flash = (flash+1)%25;
-      if(flash == 0)
+      if (flash == 0)
       {
         flashbool = !flashbool;
       }
     }
-  }
-  else
+  } else
   {
     blinky.scared = false;
     pinky.scared = false;
     inky.scared = false;
     clyde.scared = false;
   }
-  if(index < split(swap, ',').length)
+  if (index < split(swap, ',').length)
   {
     if (timer < int(float(split(swap, ',')[index])*100))
     {
@@ -267,54 +271,53 @@ void draw()
       index++;
       timer = 0;
     }
-  }
-  else if(index == split(swap, ',').length)
+  } else if (index == split(swap, ',').length)
   {
-        blinky.Phase("chase");
-        pinky.Phase("chase");
-        inky.Phase("chase");
-        clyde.Phase("chase");
+    blinky.Phase("chase");
+    pinky.Phase("chase");
+    inky.Phase("chase");
+    clyde.Phase("chase");
   }
   scale(scale);
   IntoHouse(blinky);
   IntoHouse(pinky);
   IntoHouse(inky);
   IntoHouse(clyde);
-  if(blinky.start)
+  if (blinky.start)
   {
-     blinky.Start();
+    blinky.Start();
   }
-  if(pinky.start)
+  if (pinky.start)
   {
-     pinky.Start();
+    pinky.Start();
   }
-  if(inky.start)
+  if (inky.start)
   {
-    
-      inkytimer++;
-    if(inkytimer == 500 || level > 1)
-      {
-     inky.house = true;
-      }
-      if(inky.house)
-      {
+
+    inkytimer++;
+    if (inkytimer == 500 || level > 1)
+    {
+      inky.house = true;
+    }
+    if (inky.house)
+    {
       inky.Start();
-      } 
+    }
   }
-  if(clyde.start)
+  if (clyde.start)
   {
-     clydetimer++;
-    if(clydetimer == 800 || level > 2)
-      {
-       clyde.house = true;
-      }
-      if(clyde.house)
-      {
+    clydetimer++;
+    if (clydetimer == 800 || level > 2)
+    {
+      clyde.house = true;
+    }
+    if (clyde.house)
+    {
       clyde.Start();
-      } 
-}
-  
- 
+    }
+  }
+
+
   if (cposx < 0)
   {
     cposx = 29*25 - 10;
@@ -331,16 +334,15 @@ void draw()
     clyde.phase = "scatter";
     index = 0;
     timer = 0;
-     frightened = 0;
+    frightened = 0;
     numCaught = 0;
     flashbool = false;
     flash = 0;
     level++;
-    if(level >= 2 && level <= 4)
+    if (level >= 2 && level <= 4)
     {
       swap = swap24;
-    }
-    else
+    } else
     {
       swap = swap5;
     }
@@ -348,6 +350,8 @@ void draw()
     cposx = 356;
     cposy = 688;
     Dotdef();
+    GhostData();
+    canMovei = 0;
     reloadcount = 0;
     boolcount = 0;
   }
@@ -412,6 +416,7 @@ void draw()
     makeblack = false;
     deathcount = 0;
     GhostData();
+    canMovei = 0;
     death = false;
   }
 
@@ -459,7 +464,7 @@ void draw()
       }
     }
   }
-   
+
   fill(255, 255, 0);
   if (dir != "")
   {
@@ -485,9 +490,9 @@ void draw()
           pinky.Phase("scared");
           inky.Phase("scared");
           clyde.Phase("scared");
-          if(level <= split(frightentime,',').length)
+          if (level <= split(frightentime, ',').length)
           {
-            frightened = int(split(frightentime,',')[level-1])*100;
+            frightened = int(split(frightentime, ',')[level-1])*100;
           } else
           {
             frightened = 0;
@@ -501,8 +506,10 @@ void draw()
       }
     }
   }
+  
   if (dir != "")
   {
+    canMovei++;
     if (count > 50)
     {
       mouth = true;
@@ -549,7 +556,7 @@ void draw()
     textSize(36); 
     text("GAME  OVER", 245, 553);
   }
-  
+
   Ghostdraw(blinky);
   Ghostdraw(pinky);
   Ghostdraw(inky);
@@ -559,6 +566,7 @@ void draw()
     background(0);
   }
 }
+int canMovei = 0;
 String dir = "";
 boolean debug = false;
 void keyPressed()

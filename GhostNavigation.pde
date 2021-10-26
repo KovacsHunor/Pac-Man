@@ -1,4 +1,4 @@
-int random = 0;
+int random = 0; //<>//
 void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van
 {
   random = 0;
@@ -159,13 +159,13 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
       {
         ghost.Direction = closestDirection;
         if(ghost.Direction == 3 && ghostTileX == 6 && ghostTileY == 18)
-        {
+        { //<>//
           ghost.Ghostspeed = 0.9;
           ghost.tunnel = true;
         }
         else if(ghost.Direction == 1 && ghostTileX == 21 && ghostTileY == 18)
         {
-          ghost.Ghostspeed = 0.9;
+          ghost.Ghostspeed = 0.9; //<>//
           ghost.tunnel = true;
         }
         else if(ghost.Direction != 1 && ghostTileX == 21 && ghostTileY == 18)
@@ -176,7 +176,7 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
         {
           ghost.tunnel = false;
         }
-      }
+      } //<>//
       ghost.cooldown = 0;
     }
   } else

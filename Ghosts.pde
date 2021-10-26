@@ -17,7 +17,7 @@ class Ghosts
   int scount;  
   boolean scared = false;
   boolean caught = false;
-  boolean start = true;
+  boolean start;
   boolean house;
   boolean back;
   color Color;
