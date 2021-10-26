@@ -38,52 +38,58 @@ void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől f
 
 void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától függően
 {
+  int random = 0;
+  int rnd = int(random(100));
+  if(rnd < ghost.randomspeed)
+  {
+    random = 1;
+  }
   if (ghost.scount < ghost.decimalSpeed)
   {
-    ghost.delta = ghost.roundDownSpeed+1;
+    ghost.delta = ghost.roundDownSpeed+1+random;
   } else
   {
-    ghost.delta = ghost.roundDownSpeed;
+    ghost.delta = ghost.roundDownSpeed+random;
   }
   switch(ghost.Direction)
   {
   case 0:
     if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosY -= ghost.roundDownSpeed+1;
+      ghost.PosY -= ghost.roundDownSpeed+1+random;
     } else
     {
-      ghost.PosY -= ghost.roundDownSpeed;
+      ghost.PosY -= ghost.roundDownSpeed+random;
     }
     break;
 
   case 1:
     if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosX += ghost.roundDownSpeed+1;
+      ghost.PosX += ghost.roundDownSpeed+1+random;
     } else
     {
-      ghost.PosX += ghost.roundDownSpeed;
+      ghost.PosX += ghost.roundDownSpeed+random;
     }
     break;
 
   case 2:
     if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosY += ghost.roundDownSpeed+1;
+      ghost.PosY += ghost.roundDownSpeed+1+random;
     } else
     {
-      ghost.PosY += ghost.roundDownSpeed;
+      ghost.PosY += ghost.roundDownSpeed+random;
     }
     break;
 
   case 3:
     if (ghost.scount < ghost.decimalSpeed)
     {
-      ghost.PosX -= ghost.roundDownSpeed+1;
+      ghost.PosX -= ghost.roundDownSpeed+1+random;
     } else
     {
-      ghost.PosX -= ghost.roundDownSpeed;
+      ghost.PosX -= ghost.roundDownSpeed+random;
     }
   }
   ghost.scount++;
