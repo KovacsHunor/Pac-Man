@@ -5,6 +5,7 @@ class Ghosts
   float Ghostspeed;
   int roundDownSpeed;
   int decimalSpeed;
+  int randomspeed;
   int CaughtX = 12;
   int CaughtY = 15;
   int PosX;
