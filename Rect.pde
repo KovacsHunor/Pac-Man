@@ -44,7 +44,7 @@ class Rect
     r = l+sx*25;
     d = u+sy*25;
   }
-  public boolean Intersects()
+  boolean Intersects()
   {
     boolean bool = false;
     if (cposx-csize/2 < r && cposx+csize/2 > l && cposy-csize/2 < d && cposy+csize/2 > u)
