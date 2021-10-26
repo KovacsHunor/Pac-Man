@@ -28,9 +28,9 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   }
   if (ghost.scared)
   {
-    ghost.Ghostspeed = 1.5;
+    ghost.Ghostspeed = 1.1;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
     if (ghost.Intersects())
     {
       ghost.caught = true;
@@ -41,13 +41,13 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   {
     ghost.Ghostspeed = 1.8;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
   }
   if (ghost.caught)
   {
-    ghost.Ghostspeed = 2;
+    ghost.Ghostspeed = 3;
     ghost.roundDownSpeed = int(ghost.Ghostspeed);
-    ghost.decimalSpeed = int((ghost.Ghostspeed - 1) * 10);
+    ghost.decimalSpeed = int((ghost.Ghostspeed - ghost.roundDownSpeed) * 10);
     ghost.scared = false;
     if (ghost.CaughtX == ghost.PosX/25 && ghost.CaughtY == ghost.PosY/25)
     {
@@ -331,6 +331,10 @@ void draw()
     clyde.phase = "scatter";
     index = 0;
     timer = 0;
+    frightened = 0;
+    numCaught = 0;
+    flashbool = false;
+    flash = 0;
     level++;
     if(level >= 2 && level <= 4)
     {
