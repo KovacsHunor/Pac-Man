@@ -3,6 +3,8 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
+int fruitCounter = 0;
+
 float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[42];
@@ -144,6 +146,9 @@ public void Ghostdraw(Ghosts ghost)
 }
 void setup()
 {
+  PFont bit;
+  bit = createFont("Font.ttf", 25);
+  textFont(bit);
   blinky.Color = color(255, 0, 0);
   pinky.Color = color(255, 192, 203);
   inky.Color = color(100, 100, 255);
@@ -317,6 +322,59 @@ void draw()
     }
   }
 
+  if(boolcount >= 70)
+  {
+   switch(fruitCounter)
+   {
+    case 0: // cseresznye
+      if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
+      {
+        fruitCounter++;
+        score += 100;
+      }
+      else
+      {
+         fill(233, 29, 39);
+         rect(338, 525, 25, 25);
+         fill(0);
+      }
+      break;
+      
+    case 1: //eper
+      if(boolcount >= 170)
+      {
+      if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
+      {
+         fruitCounter++;
+         score += 300;
+      }
+      else
+      {
+        
+         fill(243,129,133);
+         rect(338, 525, 25, 25);
+         fill(0);
+      }
+      }
+      break;
+    case 2: //narancs
+    if(level==2)
+    {
+    if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
+    {
+         fruitCounter++;
+         score += 500;
+    }
+    else
+    {
+         fill(247,143,30);
+         rect(338, 525, 25, 25);
+         fill(0);
+    }
+    }
+    break;
+   }
+  }
 
   if (cposx < 0)
   {
