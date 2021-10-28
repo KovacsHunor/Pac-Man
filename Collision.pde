@@ -61,7 +61,7 @@ class Left extends Collision
 
   boolean Bool(int i)
   {
-    return  cposx-csize/2 < walls[i].r + (pRoundDown + pDelta + pRan) + 1 && cposx - csize/2 > walls[i].l && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
+    return  cposx-csize/2 < walls[i].r + (pRoundDown + pDelta + pRan + bug) + 1 && cposx - csize/2 > walls[i].l && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
   }
   void Set()
   {
@@ -80,7 +80,7 @@ class Right extends Collision
 
   boolean Bool(int i)
   {
-    return cposx+csize/2 > walls[i].l - (pRoundDown + pDelta + pRan) - 1 && cposx + csize/2 < walls[i].r && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
+    return cposx+csize/2 > walls[i].l - (pRoundDown + pDelta + pRan + bug) - 1 && cposx + csize/2 < walls[i].r && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
   }
   void Set()
   {
@@ -99,7 +99,7 @@ class Up extends Collision
 
   boolean Bool(int i)
   {
-    return cposy-csize/2 < walls[i].d + (pRoundDown + pDelta + pRan) + 1 && cposy - csize/2 > walls[i].u && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
+    return cposy-csize/2 < walls[i].d + (pRoundDown + pDelta + pRan + bug) + 1 && cposy - csize/2 > walls[i].u && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
   }
   void Set()
   {
@@ -115,10 +115,9 @@ class Up extends Collision
 }
 class Down extends Collision
 {
-
   boolean Bool(int i)
   {
-    return cposy+csize/2 > walls[i].u - (pRoundDown + pDelta + pRan) - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
+    return cposy+csize/2 > walls[i].u - (pRoundDown + pDelta + pRan + bug) - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
   }
   void Set()
   {

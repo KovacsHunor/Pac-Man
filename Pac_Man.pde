@@ -3,6 +3,8 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
+int bug = 0;
+
 int eating = 0;
 
 float maxSpeed = 2.5;
@@ -221,7 +223,7 @@ void setup()
   surface.setLocation(int((displayWidth - 710*scale) / 2), 10);
   textSize(30);
 }
-int csize = 22;
+int csize = 23;
 int cposx = 356;
 int cposy = 688;
 float radx = 0.5;
@@ -271,12 +273,9 @@ boolean flashbool;
 
 
 void draw()
-{
-  if(eating > 0)
-  {
-    eating--;
-  }
+{  
   background(0);
+  text(speed,120,50);
   if (frightened > 0)
   {
     frightened--;
@@ -427,7 +426,7 @@ void draw()
   }
   if(eating > 0)
   {
-    percent -= 9 + ((percent - 0.8) / 5);
+    percent -= 0.09 + ((percent - 0.8) / 5);
   }
   speed = maxSpeed * percent;
   pRoundDown = int(speed);
@@ -443,6 +442,15 @@ void draw()
   if(rnd < pRandom)
   {
     random = 1;
+  }
+  bug = 0;
+  if(pRoundDown + pDelta + pRan < 2)
+  {
+    bug = 2 - (pRoundDown + pDelta + pRan);
+  }
+  if(eating > 0)
+  {
+    eating -= pRoundDown + pDelta + pRan;
   }
   switch (dir)
   {
@@ -572,6 +580,7 @@ void draw()
     {
       if (dots[i][j].Intersects() && dots[i][j].bool)
       {
+        eating = 25;
         if (dots[i][j].big)
         {
           flashbool = false;
