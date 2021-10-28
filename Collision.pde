@@ -10,7 +10,7 @@ class Collision
       {
         wall = true;
       }
-       if(!Bool(i,true) && Bool(i,false))
+      if(!Bool(i,true) && Bool(i,false))
       {
         z = i;
       }
@@ -61,10 +61,9 @@ class Collision
 }
 class Left extends Collision
 {
-
   boolean Bool(int i, boolean cut)
   {
-     if(cut)
+    if(cut)
     {
       return  cposx-csize/2 < walls[i].r + (pRoundDown + pDelta + pRan + bug) + 1 && cposx - csize/2 > walls[i].l && ((cposy+csize/2 + 1 > walls[i].u + corner && walls[i].d - corner > cposy-csize/2 - 1));
     }
@@ -76,6 +75,7 @@ class Left extends Collision
   void Set()
   {
     towards = "left";
+    
     cposx -= pRoundDown+pDelta+pRan;
     radx = 0.5 - PI;
     rady = 5.78 - PI;
@@ -94,12 +94,12 @@ class Left extends Collision
   void Tri()
   {
     triangle(cposx - 38, cposy, cposx - 32, cposy + 6, cposx - 32, cposy - 6);
-  }
+  }  
 }
 class Right extends Collision
 {
 
-   boolean Bool(int i, boolean cut)
+  boolean Bool(int i, boolean cut)
   {
     if(cut)
     {
@@ -116,7 +116,7 @@ class Right extends Collision
     cposx += pRoundDown+pDelta+pRan;
     radx = 0.5;
     rady = 5.78;
-     if(!Bool(z,true) && Bool(z,false))
+    if(!Bool(z,true) && Bool(z,false))
     {
       if(up.Bool(z,false))
       {
@@ -136,7 +136,7 @@ class Right extends Collision
 class Up extends Collision
 {
 
-   boolean Bool(int i, boolean cut)
+  boolean Bool(int i, boolean cut)
   {
     if(cut)
     {
@@ -153,7 +153,7 @@ class Up extends Collision
     cposy -= pRoundDown+pDelta+pRan;
     radx = 0.5 - PI/2;
     rady = 5.78 - PI/2;
-     if(!Bool(z,true) && Bool(z,false))
+    if(!Bool(z,true) && Bool(z,false))
     {
       if(left.Bool(z,false))
       {
@@ -173,7 +173,7 @@ class Up extends Collision
 class Down extends Collision
 {
 
-   boolean Bool(int i, boolean cut)
+  boolean Bool(int i, boolean cut)
   {
     if(cut)
     {
