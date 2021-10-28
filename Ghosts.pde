@@ -25,7 +25,6 @@ class Ghosts
   int delta = 2;
   PImage[] ghostNormal = new PImage[4];
   
-  
   void Back()
   {
   }

@@ -1,6 +1,8 @@
 
 void Dotdef()
 {
+  fboola = true;
+  fboolb = true;
   for (int i = 0; i < 30; i++)
   {
     for (int j = 0; j < 36; j++)
@@ -52,6 +54,21 @@ void field(color c)
 {
   fill(0);
   stroke(c);
+  
+  
+  
+   walls[44].Show(26, 17, 1, 1, 0);
+  walls[45].Show(26, 19, 1, 1, 0);
+  walls[42].Show(-1, 17, 3, 1, 0);
+  walls[43].Show(-1, 19, 3, 1, 0);
+  
+  noStroke();
+  rect(-1*25, 17*25, 2*25, 1*25);
+  rect(-1*25, 19*25, 2*25, 1*25);
+  stroke(c);
+ 
+ 
+  
   walls[0].Show(0, 4, 28, 1, 20);
   walls[1].Show(0, 4, 1, 10, 20);
   walls[40].Show(0, 20, 1, 15, 20);
@@ -68,15 +85,16 @@ void field(color c)
   walls[9].Show(2, 10, 4, 2, 20);
   walls[10].Show(22, 10, 4, 2, 20);
   walls[11].Show(10, 10, 8, 2, 20);
-  walls[12].ShowBorder(0, 13, 6, 5, 20, 0, 20, 0);
   walls[13].Show(7, 10, 2, 8, 20);
   walls[14].Show(7, 13, 5, 2, 20);
   walls[15].Show(13, 10, 2, 5, 20);
   walls[16].Show(19, 10, 2, 8, 20);
   walls[17].Show(16, 13, 5, 2, 20);
+  
   walls[18].ShowBorder(22, 13, 6, 5, 0, 20, 0, 20);
-  walls[19].ShowBorder(0, 19, 6, 5, 20, 0, 20, 0);
   walls[20].ShowBorder(22, 19, 6, 5, 0, 20, 0, 20);
+  walls[19].ShowBorder(0, 19, 6, 5, 20, 0, 20, 0);
+  walls[12].ShowBorder(0, 13, 6, 5, 20, 0, 20, 0);
   walls[21].Show(7, 19, 2, 5, 20);
   walls[22].Show(19, 19, 2, 5, 20);
   walls[23].Show(10, 22, 8, 2, 20);
@@ -96,10 +114,9 @@ void field(color c)
   walls[37].Show(19, 28, 2, 5, 20);
   walls[38].Show(13, 28, 2, 5, 20);
   walls[39].Show(10, 16, 8, 5, 0);
- 
   noStroke();
 
-  for (int i = 0; i < walls.length; i++)
+  for (int i = 0; i < walls.length - 4; i++)
   {
     rect(walls[i].l+11, walls[i].u+11, walls[i].r-walls[i].l-21, walls[i].d-walls[i].u-21, 20);
   }
