@@ -3,7 +3,17 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
-int fruitCounter = 0;
+int eating = 0;
+
+float maxSpeed = 2.5;
+float speed = 2;
+int pRoundDown = int(speed);
+int pDecimal = int((speed - pRoundDown) * 10);
+int pRandom = int((speed - pRoundDown) * 100)-pDecimal*10;
+float percent = 0.8;
+int pcount = 0;
+int pRan = 0;
+int pDelta = 0;
 
 float scale = 1;
 Dot[][] dots = new Dot[30][36];
@@ -16,12 +26,51 @@ String swap = "7,20,7,20,5,20,5";
 String swap24 = "7,20,7,20,5,1033.234,0.002";
 String swap5 = "5,20,5,20,5,1037.234,0.002";
 
-String frightentime = "6,5,4,3,2,5,2,2,1,5,2,1,1,3,1,1,0,1";
+String frightentime = "6,5,4,3,2,5,2,2,1,5,2,1,1,3,1,1,0,1,0";
+
+String GtunnelSpeed = "40,45,45,45,50";
+String GfrightSpeed = "50,55,55,55,60";
+String GnormSpeed = "75,85,85,85,95";
+
+String frightSpeed = "90,95,95,95,100";
+String normSpeed = "80,90,90,90,100";
 
 int numCaught = 0;
 
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
+  if(ghost.caught)
+  {
+    percent = 1.2;
+  }
+  else if(ghost.tunnel)
+  {
+    int i = level;
+    if(i > 5)
+    {
+      i = 5;
+    }
+    percent = float(split(GtunnelSpeed,',')[i-1])/100f;
+  }
+  else if(ghost.scared)
+  {
+    int i = level;
+    if(i > 5)
+    {
+      i = 5;
+    }
+    percent = float(split(GfrightSpeed,',')[i-1])/100f;
+  }
+  else
+  {
+    int i = level;
+    if(i > 5)
+    {
+      i = 5;
+    }
+    percent = float(split(GnormSpeed,',')[i-1])/100f;
+  }
+  ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught)
   {
     death = true;
@@ -34,23 +83,15 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   }
   if (ghost.scared)
   {
-    if(!ghost.tunnel)
-    {
-      ghost.Ghostspeed = 1.1;
-    }
     if (ghost.Intersects())
     {
       ghost.caught = true;
-       numCaught++;
+      numCaught++;
       score += 100*(2^numCaught);
     }
-  } else if(!ghost.tunnel)
-  {
-    ghost.Ghostspeed = 1.8;
-  }
+  } 
   if (ghost.caught)
   {
-    ghost.Ghostspeed = 2;
     ghost.scared = false;
     if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && ghost.CaughtY == ghost.PosY/25)
     {
@@ -146,12 +187,9 @@ public void Ghostdraw(Ghosts ghost)
 }
 void setup()
 {
-  PFont bit;
-  bit = createFont("Font.ttf", 25);
-  textFont(bit);
   blinky.Color = color(255, 0, 0);
   pinky.Color = color(255, 192, 203);
-  inky.Color = color(100, 100, 255);
+  inky.Color = color(0, 255, 255);
   clyde.Color = color(255, 255, 100);
   GhostData();
   for (int i = 0; i < 13; i++)
@@ -233,7 +271,10 @@ boolean flashbool;
 
 void draw()
 {
-
+  if(eating > 0)
+  {
+    eating--;
+  }
   background(0);
   if (frightened > 0)
   {
@@ -322,59 +363,6 @@ void draw()
     }
   }
 
-  if(boolcount >= 70)
-  {
-   switch(fruitCounter)
-   {
-    case 0: // cseresznye
-      if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
-      {
-        fruitCounter++;
-        score += 100;
-      }
-      else
-      {
-         fill(233, 29, 39);
-         rect(338, 525, 25, 25);
-         fill(0);
-      }
-      break;
-      
-    case 1: //eper
-      if(boolcount >= 170)
-      {
-      if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
-      {
-         fruitCounter++;
-         score += 300;
-      }
-      else
-      {
-        
-         fill(243,129,133);
-         rect(338, 525, 25, 25);
-         fill(0);
-      }
-      }
-      break;
-    case 2: //narancs
-    if(level==2)
-    {
-    if(cposx + csize >= 338 && cposx - csize <= 363 && cposy == 538)
-    {
-         fruitCounter++;
-         score += 500;
-    }
-    else
-    {
-         fill(247,143,30);
-         rect(338, 525, 25, 25);
-         fill(0);
-    }
-    }
-    break;
-   }
-  }
 
   if (cposx < 0)
   {
@@ -413,6 +401,50 @@ void draw()
     reloadcount = 0;
     boolcount = 0;
   }
+  if(level < 21)
+  {
+  if(frightened > 0)
+  {
+    int i = level;
+    if(i > 5)
+    {
+      i = 5;
+    }
+    percent = float(split(frightSpeed,',')[i-1])/100f;
+  }
+  else
+  {
+    int i = level;
+    if(i > 5)
+    {
+      i = 5;
+    }
+    percent = float(split(normSpeed,',')[i-1])/100f;
+  }
+  }
+  else
+  {
+    percent = 0.9;
+  }
+  if(eating > 0)
+  {
+    percent -= 9 + ((percent - 0.8) / 5);
+  }
+  speed = maxSpeed * percent;
+  pRoundDown = int(speed);
+  pDecimal = int((speed - pRoundDown) * 10);
+  pRandom = int((speed - pRoundDown) * 100)-pDecimal*10;
+  pDelta = 0;
+  if (pcount < pDecimal)
+  {
+    pDelta = 1;
+  }
+  pRan = 0;
+  int rnd = int(random(100));
+  if(rnd < pRandom)
+  {
+    random = 1;
+  }
   switch (dir)
   {
   case "up":
@@ -431,6 +463,7 @@ void draw()
     left.Collide();
     break;
   }
+  pcount = (pcount + 1) % 10;
   fill(255, 255, 0);
   for (int i = 1; i < lives; i++)
   {
@@ -439,6 +472,8 @@ void draw()
 
   if (death)
   {
+    GhostData();
+    canMovei = 0;
     deathcount++;
     towards = "";
     after = "";
@@ -654,6 +689,5 @@ void keyPressed()
     }
   }
 }
-int speed = 2;
 
 String towards = "";
