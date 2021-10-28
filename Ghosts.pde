@@ -34,7 +34,7 @@ class Ghosts
   boolean Intersects()
   {
     boolean bool = false;
-    if (cposx-10/2 < PosX + 35 && cposx+10/2 > PosX && cposy-10/2 < PosY + 35 && cposy+10/2 > PosY)
+    if (cposx-6/2 < PosX + 35 && cposx+6/2 > PosX && cposy-6/2 < PosY + 35 && cposy+6/2 > PosY)
     {
       bool = true;
     }
@@ -43,16 +43,6 @@ class Ghosts
   
   void Target()
   {
-  }
-  
-  boolean Collides()
-  {
-    boolean bool = false;
-    if (cposx-csize/2 < PosX-25 && cposx+csize/2 > PosX && cposy-csize/2 < PosY-25 && cposy+csize/2 > PosY)
-    {
-      bool = true;
-    }
-    return bool;
   }
   void Phase(String inputPhase)
   {

@@ -3,6 +3,8 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
+String test = "";
+
 int bug = 0;
 
 int eating = 0;
@@ -318,7 +320,7 @@ public void Fruits()
         fruitCounter = 0;
         fruitbool = false; 
       }
-      else if(fruitbool && fruitCounter < 700)
+      else if(fruitbool && fruitCounter < 800)
       {
         if(level < 13)
          {
@@ -342,6 +344,7 @@ public void Fruits()
 void draw()
 {
   background(0);
+  text(test,120,50);
   if (frightened > 0)
   {
     frightened--;
