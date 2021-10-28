@@ -342,7 +342,6 @@ public void Fruits()
 void draw()
 {
   background(0);
-  text(speed,120,50);
   if (frightened > 0)
   {
     frightened--;
