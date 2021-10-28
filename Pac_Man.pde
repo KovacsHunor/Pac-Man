@@ -9,7 +9,7 @@ int bug = 0;
 
 int eating = 0;
 
-float maxSpeed = 2.5;
+float maxSpeed = 2.4;
 float speed = 2;
 int pRoundDown = int(speed);
 int pDecimal = int((speed - pRoundDown) * 10);
