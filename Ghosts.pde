@@ -23,7 +23,7 @@ class Ghosts
   color Color;
   boolean tunnel;
   int delta = 2;
-  
+  PImage[] ghostNormal = new PImage[4];
   
   void Back()
   {
@@ -34,7 +34,7 @@ class Ghosts
   boolean Intersects()
   {
     boolean bool = false;
-    if (cposx-10/2 < PosX + 35 && cposx+10/2 > PosX && cposy-10/2 < PosY + 35 && cposy+10/2 > PosY)
+    if (cposx-6/2 < PosX + 35 && cposx+6/2 > PosX && cposy-6/2 < PosY + 35 && cposy+6/2 > PosY)
     {
       bool = true;
     }

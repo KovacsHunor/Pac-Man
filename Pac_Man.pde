@@ -3,6 +3,8 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
+String test = "";
+
 int bug = 0;
 
 int eating = 0;
@@ -23,7 +25,7 @@ Rect[] walls = new Rect[46];
 PImage[] deathanimation = new PImage[13];
 PImage[] fruitsp = new PImage[8];
 int lives = 3;
-int level = 1;
+int level = 19;
 
 String swap = "7,20,7,20,5,20,5";
 String swap24 = "7,20,7,20,5,1033.234,0.002";
@@ -171,35 +173,58 @@ public void Ghostdraw(Ghosts ghost)
 {
   if (beginning)
   {
-    fill(ghost.Color);
-    if (ghost.scared)
+    boolean drawn = false;
+  fill(ghost.Color);
+  if (ghost.scared)
+  {
+    if (!flashbool)
     {
-      if (!flashbool)
-      {
-        fill(33, 33, 222);
-      } else
-      {
-        fill(255);
-      }
-    }
-    rect(ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-
-    Phasecheck(ghost, ghost.wantsToTurn);
-
-    if (!ghost.start && !ghost.back)
+      image(scaredGhost1, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+    } 
+    else
     {
-      ghostPosition(ghost);
-      Ghostteleport(ghost);
-      ghost.Target();
-      if (canMovei == 1)
-      {
-        ghost.start = true; 
-        timer = 0;
-        index = 0;
-      }
+      image(scaredGhost2, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
     }
+    drawn = true;
+  }
+
+  if(ghost.caught)
+  {
+    image(ghostCaught[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 13);
+    drawn = true;
+  }
+
+  if(!drawn)
+  {
+  if(ghost.Direction != -1)
+  {
+  image(ghost.ghostNormal[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+  }
+  else
+  {
+  image(ghost.ghostNormal[2], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+  }
+ }
+
+  Phasecheck(ghost, ghost.wantsToTurn);
+
+  if (!ghost.start && !ghost.back)
+  {
+    ghostPosition(ghost);
+    Ghostteleport(ghost);
+    ghost.Target();
+    if (canMovei == 1)
+  {
+    ghost.start = true; 
+    timer = 0;
+    index = 0;
+  }
+  }
   }
 }
+PImage scaredGhost1;
+PImage scaredGhost2;
+PImage[] ghostCaught = new PImage[4];
 boolean beginning = true;
 void setup()
 {
@@ -214,6 +239,17 @@ void setup()
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
   }
+  for(int i = 0; i < 4; i++)
+  {
+    blinky.ghostNormal[i] = loadImage("GhostAnimations/blinky"+i+".png");
+    inky.ghostNormal[i] = loadImage("GhostAnimations/inky"+i+".png");
+    pinky.ghostNormal[i] = loadImage("GhostAnimations/pinky"+i+".png");
+    clyde.ghostNormal[i] = loadImage("GhostAnimations/clyde"+i+".png");
+
+    ghostCaught[i] = loadImage("GhostAnimations/ghostCaught"+i+".png");
+  }
+  scaredGhost1 = loadImage("GhostAnimations/ghostScared1.png");
+  scaredGhost2 = loadImage("GhostAnimations/ghostScared2.png");
   for (int i = 0; i < 8; i++)
   {
     fruitsp[i] = loadImage("fruits/" +i+ ".png");
