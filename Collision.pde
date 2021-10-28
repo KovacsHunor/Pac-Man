@@ -1,7 +1,7 @@
 class Collision
 {
   int z = 0;
-  int corner = 7;
+  int corner = 4;
   public void Collide()
   {
     for (int i = 0; i < walls.length; i++)
