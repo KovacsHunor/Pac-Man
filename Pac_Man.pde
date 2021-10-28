@@ -3,6 +3,8 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
+String test = "";
+
 int bug = 0;
 
 int eating = 0;
@@ -76,7 +78,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught)
   {
-    death = true;
+    //death = true;
   }
   if (ghost.wantsToTurn && ghost.cooldown == 3 && ghost.Direction != -1)
   {
@@ -173,38 +175,18 @@ public void GhostData()
 }
 public void Ghostdraw(Ghosts ghost)
 {
-  boolean drawn = false;
   fill(ghost.Color);
   if (ghost.scared)
   {
     if (!flashbool)
     {
-      image(scaredGhost1, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-    } 
-    else
+      fill(33, 33, 222);
+    } else
     {
-      image(scaredGhost2, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      fill(255);
     }
-    drawn = true;
   }
-  
-  if(ghost.caught)
-  {
-    image(ghostCaught[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 13);
-    drawn = true;
-  }
-  
-  if(!drawn)
-  {
-  if(ghost.Direction != -1)
-  {
-  image(ghost.ghostNormal[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-  }
-  else
-  {
-  image(ghost.ghostNormal[2], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-  }
-  }
+  rect(ghost.PosX + 1, ghost.PosY - 4, 35, 35);
 
   Phasecheck(ghost, ghost.wantsToTurn);
 
@@ -221,11 +203,6 @@ public void Ghostdraw(Ghosts ghost)
   }
   }
 }
-
-PImage scaredGhost1;
-PImage scaredGhost2;
-PImage[] ghostCaught = new PImage[4];
-
 void setup()
 {
   PFont bit;
@@ -239,19 +216,6 @@ void setup()
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
   }
-  
-  for(int i = 0; i < 4; i++)
-  {
-    blinky.ghostNormal[i] = loadImage("GhostAnimations/blinky"+i+".png");
-    inky.ghostNormal[i] = loadImage("GhostAnimations/inky"+i+".png");
-    pinky.ghostNormal[i] = loadImage("GhostAnimations/pinky"+i+".png");
-    clyde.ghostNormal[i] = loadImage("GhostAnimations/clyde"+i+".png");
-    
-    ghostCaught[i] = loadImage("GhostAnimations/ghostCaught"+i+".png");
-  }
-  scaredGhost1 = loadImage("GhostAnimations/ghostScared1.png");
-  scaredGhost2 = loadImage("GhostAnimations/ghostScared2.png");
-  
   for (int i = 0; i < 8; i++)
   {
     fruitsp[i] = loadImage("fruits/" +i+ ".png");
@@ -356,7 +320,7 @@ public void Fruits()
         fruitCounter = 0;
         fruitbool = false; 
       }
-      else if(fruitbool && fruitCounter < 700)
+      else if(fruitbool && fruitCounter < 800)
       {
         if(level < 13)
          {
@@ -380,6 +344,7 @@ public void Fruits()
 void draw()
 {
   background(0);
+  text(test,120,50);
   if (frightened > 0)
   {
     frightened--;
