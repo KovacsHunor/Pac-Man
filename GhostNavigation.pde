@@ -93,11 +93,7 @@ void ghostMovement(Ghosts ghost) //tovább mozgatja a szellemet az irányától 
       ghost.PosX -= ghost.roundDownSpeed+random;
     }
   }
-  ghost.scount++;
-  if (ghost.scount == 10)
-  {
-    ghost.scount = 0;
-  }
+  ghost.scount = (ghost.scount + 1) % 10;
 }
 
 

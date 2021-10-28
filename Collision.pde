@@ -61,12 +61,12 @@ class Left extends Collision
 
   boolean Bool(int i)
   {
-    return  cposx-csize/2 < walls[i].r + speed + 1 && cposx - csize/2 > walls[i].l && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
+    return  cposx-csize/2 < walls[i].r + (pRoundDown + pDelta + pRan) + 1 && cposx - csize/2 > walls[i].l && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
   }
   void Set()
   {
     towards = "left";
-    cposx -= speed;
+    cposx -= pRoundDown+pDelta+pRan;
     radx = 0.5 - PI;
     rady = 5.78 - PI;
   }
@@ -80,12 +80,12 @@ class Right extends Collision
 
   boolean Bool(int i)
   {
-    return cposx+csize/2 > walls[i].l - speed - 1 && cposx + csize/2 < walls[i].r && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
+    return cposx+csize/2 > walls[i].l - (pRoundDown + pDelta + pRan) - 1 && cposx + csize/2 < walls[i].r && cposy+csize/2 + 1 > walls[i].u && walls[i].d > cposy-csize/2 - 1;
   }
   void Set()
   {
     towards = "right";
-    cposx += speed;
+    cposx += pRoundDown+pDelta+pRan;
     radx = 0.5;
     rady = 5.78;
   }
@@ -99,12 +99,12 @@ class Up extends Collision
 
   boolean Bool(int i)
   {
-    return cposy-csize/2 < walls[i].d + speed + 1 && cposy - csize/2 > walls[i].u && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
+    return cposy-csize/2 < walls[i].d + (pRoundDown + pDelta + pRan) + 1 && cposy - csize/2 > walls[i].u && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
   }
   void Set()
   {
     towards = "up";
-    cposy -= speed;
+    cposy -= pRoundDown+pDelta+pRan;
     radx = 0.5 - PI/2;
     rady = 5.78 - PI/2;
   }
@@ -118,12 +118,12 @@ class Down extends Collision
 
   boolean Bool(int i)
   {
-    return cposy+csize/2 > walls[i].u - speed - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
+    return cposy+csize/2 > walls[i].u - (pRoundDown + pDelta + pRan) - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
   }
   void Set()
   {
     towards = "down";
-    cposy += speed;
+    cposy += pRoundDown+pDelta+pRan;
     radx = 0.5 + PI/2;
     rady = 5.78 + PI/2;
   }
