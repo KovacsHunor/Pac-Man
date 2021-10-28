@@ -221,7 +221,7 @@ class Inky extends Ghosts
     {
      inky.PosX++;
     }
-    else if(inky.start)
+    else
     {
       Outgo(inky);
     }

@@ -1,4 +1,4 @@
-int random = 0; //<>//
+int random = 0;
 void ghostPosition(Ghosts ghost) // megállapitja hol van a szellem és ettől függően vagy tovább adja a ghostMovement függvényhez anélkül, hogy megváltoztatná az irányát, vagy a ghostDecision függvényhez adja tovább ha egy kereszteződésben van
 {
   random = 0;
@@ -237,4 +237,5 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
     k = 0;
   }
   ghostMovement(ghost);
+  
 }

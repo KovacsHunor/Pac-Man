@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky(); //<>//
+Blinky blinky = new Blinky();
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -21,6 +21,7 @@ float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[42];
 PImage[] deathanimation = new PImage[13];
+PImage[] fruitsp = new PImage[8];
 int lives = 3;
 int level = 1;
 
@@ -41,7 +42,7 @@ int numCaught = 0;
 
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
-  if(ghost.caught)
+   if(ghost.caught)
   {
     percent = 1.2;
   }
@@ -75,7 +76,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught)
   {
-    death = true;
+    //death = true;
   }
   if (ghost.wantsToTurn && ghost.cooldown == 3 && ghost.Direction != -1)
   {
@@ -85,15 +86,17 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   }
   if (ghost.scared)
   {
+   
     if (ghost.Intersects())
     {
       ghost.caught = true;
-      numCaught++;
+       numCaught++;
       score += 100*(2^numCaught);
     }
   } 
   if (ghost.caught)
   {
+  
     ghost.scared = false;
     if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && ghost.CaughtY == ghost.PosY/25)
     {
@@ -113,7 +116,15 @@ public void Outgo(Ghosts ghost)
     ghost.PosY--;
   } else
   {
-    ghost.Direction = 1;
+    if(ghost == blinky || ghost == pinky)
+    {
+      ghost.Direction = 3;
+    }
+    else
+    {
+      ghost.Target();
+      ghostDecision(ghost);
+    }
     ghost.start = false;
     ghost.house = false;
   }
@@ -185,19 +196,27 @@ public void Ghostdraw(Ghosts ghost)
     if (canMovei == 1)
   {
     ghost.start = true; 
+    timer = 0;
+    index = 0;
   }
   }
 }
 void setup()
 {
+  PFont bit;
+  bit = createFont("Font.ttf", 25);
+  textFont(bit);
   blinky.Color = color(255, 0, 0);
-  pinky.Color = color(255, 192, 203);
+  pinky.Color = color(255, 184, 255);
   inky.Color = color(0, 255, 255);
-  clyde.Color = color(255, 255, 100);
-  GhostData();
+  clyde.Color = color(255, 184, 82);
   for (int i = 0; i < 13; i++)
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
+  }
+  for (int i = 0; i < 8; i++)
+  {
+    fruitsp[i] = loadImage("fruits/" +i+ ".png");
   }
   scale *= displayHeight / 1080f;
   frameRate(100);
@@ -209,7 +228,10 @@ void setup()
       nodes[i][j] = new Nodes();
     }
   }
-  Dotdef();
+   
+    Dotdef();
+    GhostData();
+   
   for (int i = 0; i < walls.length; i++)
   {
     walls[i] = new Rect();
@@ -270,10 +292,55 @@ int clydetimer = 0;
 int frightened = 0;
 int flash = 0;
 boolean flashbool;
-
+String fruits = "012233445566";
+String fruitscore = "100,300,500,700,1000,2000,3000";
+int fruitCounter = 0;
+boolean fruitbool;
+public void Fruits()
+{
+  if(boolcount == 70 || boolcount == 170)
+  {
+    fruitbool = true;
+  }
+   if(lives > 0)
+  {
+    
+      if(cposx + csize >= 344 && cposx - csize <= 366 && cposy > 536 && cposy < 540 && fruitbool)
+      {
+        if(level < 13)
+         {
+        score += int(split(fruitscore,',')[int(fruits.charAt(level-1)) - 48]);
+         }
+         else
+         {
+           score += 5000; 
+         }
+        fruitCounter = 0;
+        fruitbool = false; 
+      }
+      else if(fruitbool && fruitCounter < 700)
+      {
+        if(level < 13)
+         {
+           image(fruitsp[int(fruits.charAt(level-1)) - 48], 338, 522);
+         }
+          else
+          {
+             image(fruitsp[7], 338, 535);
+          }
+          fruitCounter++;
+      }
+      else
+      {
+        fruitCounter = 0;
+        fruitbool = false; 
+      }
+    }
+   
+  }
 
 void draw()
-{  
+{
   background(0);
   text(speed,120,50);
   if (frightened > 0)
@@ -341,7 +408,7 @@ void draw()
   {
 
     inkytimer++;
-    if (inkytimer == 500 || level > 1)
+    if (inkytimer == 300 || level > 1)
     {
       inky.house = true;
     }
@@ -374,10 +441,8 @@ void draw()
   }
   if (reloadcount == 300)
   {
-    blinky.phase = "scatter";
-    pinky.phase = "scatter";
-    inky.phase = "scatter";
-    clyde.phase = "scatter";
+    index = 0;
+    timer = 0;
     frightened = 0;
     numCaught = 0;
     flashbool = false;
@@ -426,7 +491,7 @@ void draw()
   }
   if(eating > 0)
   {
-    percent -= 0.09 + ((percent - 0.8) / 5);
+   percent -= 0.09 + ((percent - 0.8) / 5);
   }
   speed = maxSpeed * percent;
   pRoundDown = int(speed);
@@ -470,17 +535,12 @@ void draw()
     left.Collide();
     break;
   }
+  
   pcount = (pcount + 1) % 10;
-  fill(255, 255, 0);
-  for (int i = 1; i < lives; i++)
-  {
-    arc(i*50 - 10, 900, csize + 13, csize + 13, 0.5 - PI, 5.78 - PI);
-  }
-
   if (death)
   {
-    GhostData();
-    canMovei = 0;
+     GhostData();
+     canMovei = 0;
     deathcount++;
     towards = "";
     after = "";
@@ -519,10 +579,16 @@ void draw()
     canMovei = 0;
     death = false;
   }
-
+  if(score > 10000 && !bonus)
+  {
+    bonus = true;
+    lives++;
+  }
   color c = color(0, 0, 255);
   if (boolcount == 244)
   {
+    GhostData();
+    canMovei = 0;
     towards = "";
     after = "";
     dir = "";
@@ -654,14 +720,20 @@ void draw()
   if (lives == 0)
   {
     fill(255, 0, 0);
-    textSize(36); 
-    text("GAME  OVER", 245, 553);
+    textSize(26); 
+    text("GAME OVER", 241, 553);
   }
 
   Ghostdraw(blinky);
   Ghostdraw(pinky);
   Ghostdraw(inky);
   Ghostdraw(clyde);
+    Fruits();
+  fill(255, 255, 0);
+  for (int i = 1; i < lives; i++)
+  {
+    arc(i*50 - 10, 900, csize + 13, csize + 13, 0.5 - PI, 5.78 - PI);
+  }
   if (makeblack)
   {
     background(0);
@@ -670,6 +742,7 @@ void draw()
 int canMovei = 0;
 String dir = "";
 boolean debug = false;
+boolean bonus;
 void keyPressed()
 {
   if (keyCode == 'B')

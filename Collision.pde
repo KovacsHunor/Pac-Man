@@ -44,7 +44,6 @@ class Collision
       wall = false;
     }
   }
-
   boolean Bool(int i)
   {
     return false;
@@ -115,6 +114,7 @@ class Up extends Collision
 }
 class Down extends Collision
 {
+
   boolean Bool(int i)
   {
     return cposy+csize/2 > walls[i].u - (pRoundDown + pDelta + pRan + bug) - 1 && cposy + csize/2 < walls[i].d && cposx+csize/2 + 1 > walls[i].l && walls[i].r > cposx-csize/2 - 1;
