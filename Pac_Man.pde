@@ -141,6 +141,7 @@ public void UnderGhostData(Ghosts ghost)
 }
 public void GhostData()
 {
+  index = 0;
   timer = 0;
   blinky.PosX = 338;
   blinky.PosY = 375;
@@ -378,8 +379,6 @@ void draw()
     pinky.phase = "scatter";
     inky.phase = "scatter";
     clyde.phase = "scatter";
-    index = 0;
-    timer = 0;
     frightened = 0;
     numCaught = 0;
     flashbool = false;

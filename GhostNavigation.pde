@@ -156,12 +156,10 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
         ghost.Direction = closestDirection;
         if(ghost.Direction == 3 && ghostTileX == 6 && ghostTileY == 18)
         { //<>//
-          ghost.Ghostspeed = 0.9;
           ghost.tunnel = true;
         }
         else if(ghost.Direction == 1 && ghostTileX == 21 && ghostTileY == 18)
-        {
-          ghost.Ghostspeed = 0.9; //<>//
+        { //<>//
           ghost.tunnel = true;
         }
         else if(ghost.Direction != 1 && ghostTileX == 21 && ghostTileY == 18)
@@ -217,6 +215,22 @@ void ghostDecision(Ghosts ghost) // eldönti melyik irányban kell mennie hogy k
             ghost.cooldown = 0;
           }
           break;
+        }
+        if(ghost.Direction == 3 && ghostTileX == 6 && ghostTileY == 18)
+        {
+          ghost.tunnel = true;
+        }
+        else if(ghost.Direction == 1 && ghostTileX == 21 && ghostTileY == 18)
+        {
+          ghost.tunnel = true;
+        }
+        else if(ghost.Direction != 1 && ghostTileX == 21 && ghostTileY == 18)
+        {
+          ghost.tunnel = false;
+        }
+        else if(ghost.Direction != 3 && ghostTileX == 6 && ghostTileY == 18)
+        {
+          ghost.tunnel = false;
         }
       }
     }
