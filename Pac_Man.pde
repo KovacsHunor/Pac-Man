@@ -3,8 +3,6 @@ Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
 
-String test = "";
-
 int bug = 0;
 
 int eating = 0;
@@ -25,6 +23,8 @@ PImage[] deathanimation = new PImage[13];
 PImage[] fruitsp = new PImage[8];
 int lives = 3;
 int level = 1;
+
+String chase = "20,30,40,40,40,50,50,50,60";
 
 String swap = "7,20,7,20,5,20,5";
 String swap24 = "7,20,7,20,5,1033.234,0.002";
@@ -51,33 +51,37 @@ public int TwoPowers(int a)
 }
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
+  boolean blinkyspeed = false;
+  int i = level;
+  if (i > 9)
+  {
+    i = 9;
+  }
+  if(240 - boolcount <= int(split(chase,',')[i - 1]))
+  {
+    blinky.phase = "chase";
+    blinkyspeed = true;
+  }
+  if (i > 5)
+  {
+    i = 5;
+  }
   if (ghost.caught)
   {
     percent = 1.2;
   } else if (ghost.tunnel)
   {
-    int i = level;
-    if (i > 5)
-    {
-      i = 5;
-    }
     percent = float(split(GtunnelSpeed, ',')[i-1])/100f;
   } else if (ghost.scared)
   {
-    int i = level;
-    if (i > 5)
-    {
-      i = 5;
-    }
     percent = float(split(GfrightSpeed, ',')[i-1])/100f;
   } else
   {
-    int i = level;
-    if (i > 5)
-    {
-      i = 5;
-    }
     percent = float(split(GnormSpeed, ',')[i-1])/100f;
+    if(blinkyspeed && ghost == blinky)
+    {
+      percent = float(split(normSpeed, ',')[i-1])/100f;
+    }
   }
   ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught && !ghost.start)
@@ -460,6 +464,7 @@ public void Fruits()
 String[] help = new String[1];
 void draw()
 {
+  scale(scale);
   indexAnimation++;
   if(indexAnimation == 10)
   {
@@ -525,7 +530,6 @@ void draw()
     inky.Phase("chase");
     clyde.Phase("chase");
   }
-  scale(scale);
   IntoHouse(blinky);
   IntoHouse(pinky);
   IntoHouse(inky);
