@@ -23,7 +23,7 @@ class Ghosts
   color Color;
   boolean tunnel;
   int delta = 2;
-  PImage[] ghostNormal = new PImage[4];
+  PImage[][] ghostNormal = new PImage[4][2];
   
   void Back()
   {
