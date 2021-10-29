@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky();
+Blinky blinky = new Blinky(); //<>// //<>// //<>// //<>//
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -8,7 +8,7 @@ String test = "";
 int bug = 0;
 
 int eating = 0;
-
+int highscore;
 float maxSpeed = 2.4;
 float speed = 2;
 int pRoundDown = int(speed);
@@ -18,14 +18,13 @@ float percent = 0.8;
 int pcount = 0;
 int pRan = 0;
 int pDelta = 0;
-
 float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[46];
 PImage[] deathanimation = new PImage[13];
 PImage[] fruitsp = new PImage[8];
 int lives = 3;
-int level = 19;
+int level = 1;
 
 String swap = "7,20,7,20,5,20,5";
 String swap24 = "7,20,7,20,5,1033.234,0.002";
@@ -39,9 +38,17 @@ String GnormSpeed = "75,85,85,85,95";
 
 String frightSpeed = "90,95,95,95,100";
 String normSpeed = "80,90,90,90,100";
-
+int ghostStop = 0;
 int numCaught = 0;
-
+public int TwoPowers(int a)
+{
+  int b = 1;
+  for (int i = 0; i<a; i++)
+  {
+    b *= 2;
+  }
+  return b;
+}
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
   if (ghost.caught)
@@ -75,7 +82,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught && !ghost.start)
   {
-    death = true;
+    // death = true;
   }
   if (ghost.wantsToTurn && ghost.cooldown == 3 && ghost.Direction != -1)
   {
@@ -83,6 +90,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     ghost.wantsToTurn = false;
     ghost.cooldown = 0;
   }
+
   if (ghost.scared)
   {
 
@@ -90,7 +98,13 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
     {
       ghost.caught = true;
       numCaught++;
-      score += 100*(2^numCaught);
+      score += 100*(TwoPowers(numCaught));
+      smallscore[0] = 100*(TwoPowers(numCaught));
+      smallcount = 100;
+      ghostStop = 100;
+      smallscore[1] = ghost.PosX - 1;
+      smallscore[2] = ghost.PosY + 23;
+      smallscorec = color(100, 100, 255);
     }
   } 
   if (ghost.caught)
@@ -174,60 +188,72 @@ public void Ghostdraw(Ghosts ghost)
   if (beginning)
   {
     boolean drawn = false;
-  fill(ghost.Color);
-  if (ghost.scared)
-  {
-    if (!flashbool)
+    fill(ghost.Color);
+    if (ghost.scared)
     {
-      image(scaredGhost1, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-    } 
-    else
-    {
-      image(scaredGhost2, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      if (!flashbool)
+      {
+        image(scaredGhost1, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      } else
+      {
+        image(scaredGhost2, ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      }
+      drawn = true;
     }
-    drawn = true;
-  }
 
-  if(ghost.caught)
-  {
-    image(ghostCaught[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 13);
-    drawn = true;
-  }
+    if (ghost.caught && ghostStop == 0)
+    {
+      image(ghostCaught[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 13);
+      drawn = true;
+    }
 
-  if(!drawn)
-  {
-  if(ghost.Direction != -1)
-  {
-  image(ghost.ghostNormal[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-  }
-  else
-  {
-  image(ghost.ghostNormal[2], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
-  }
- }
+    if (!drawn && ghostStop == 0)
+    {
+      if (ghost.Direction != -1)
+      {
+        image(ghost.ghostNormal[ghost.Direction], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      } else
+      {
+        image(ghost.ghostNormal[2], ghost.PosX + 1, ghost.PosY - 4, 35, 35);
+      }
+    }
 
-  Phasecheck(ghost, ghost.wantsToTurn);
+    if (ghostStop == 0)
+    {
+      Phasecheck(ghost, ghost.wantsToTurn);
+    }
 
-  if (!ghost.start && !ghost.back)
-  {
-    ghostPosition(ghost);
-    Ghostteleport(ghost);
-    ghost.Target();
-    if (canMovei == 1)
-  {
-    ghost.start = true; 
-    timer = 0;
-    index = 0;
-  }
-  }
+
+    if (!ghost.start && !ghost.back && ghostStop == 0)
+    {
+      ghostPosition(ghost);
+      Ghostteleport(ghost);
+      ghost.Target();
+      if (canMovei == 1)
+      {
+        ghost.start = true; 
+        timer = 0;
+        index = 0;
+      }
+    }
   }
 }
 PImage scaredGhost1;
 PImage scaredGhost2;
 PImage[] ghostCaught = new PImage[4];
 boolean beginning = true;
+BufferedReader reader;
+String line;
 void setup()
 {
+  reader = createReader("highscore.txt");
+  try {
+    line = reader.readLine();
+  } 
+  catch (IOException e) {
+    noLoop();
+  }
+  highscore = int(line);
   PFont bit;
   bit = createFont("Font.ttf", 25);
   textFont(bit);
@@ -239,7 +265,7 @@ void setup()
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
   }
-  for(int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++)
   {
     blinky.ghostNormal[i] = loadImage("GhostAnimations/blinky"+i+".png");
     inky.ghostNormal[i] = loadImage("GhostAnimations/inky"+i+".png");
@@ -335,6 +361,9 @@ int fruitCounter = 0;
 boolean fruitbool;
 boolean fboola = true;
 boolean fboolb = true;
+int[] smallscore = new int[3];
+int smallcount = 0;
+color smallscorec;
 public void Fruits()
 {
 
@@ -374,16 +403,21 @@ public void Fruits()
       fruitbool = true;
       fboolb = false;
     }
-    if (cposx + csize >= 344 && cposx - csize <= 366 && cposy > 536 && cposy < 540 && fruitbool)
+    if (cposx >= 340 && cposx <= 371 && cposy > 536 && cposy < 540 && fruitbool)
     {
-
+      smallcount = 150;
       fruitbool = false; 
+      smallscore[1] = 334;
+      smallscore[2] = 547;
+      smallscorec = color(255, 125, 125);
       if (level < 13)
       {
         score += int(split(fruitscore, ',')[int(fruits.charAt(level-1)) - 48]);
+        smallscore[0] = int(split(fruitscore, ',')[int(fruits.charAt(level-1)) - 48]);
       } else
       {
         score += 5000;
+        smallscore[0] = 5000;
       }
       fruitCounter = 0;
     } else if (fruitbool && fruitCounter < 1500)
@@ -403,10 +437,19 @@ public void Fruits()
     }
   }
 }
-
+String[] help = new String[1];
 void draw()
 {
   background(0);
+
+  if (score > highscore)
+  {
+    highscore = score;
+  }
+  if (ghostStop > 0)
+  {
+    ghostStop--;
+  }
   if (frightened > 0)
   {
     frightened--;
@@ -425,6 +468,7 @@ void draw()
     inky.scared = false;
     clyde.scared = false;
   }
+  Fruits();
   if (index < split(swap, ',').length)
   {
     if (timer < int(float(split(swap, ',')[index])*100))
@@ -616,7 +660,7 @@ void draw()
 
   if ((float)deathcount/25 == 15)
   {
-    
+
     beginning = true;
     cposx = 356;
     cposy = 688;
@@ -681,12 +725,23 @@ void draw()
       }
     }
   }
-
+  if (smallcount > 0)
+  {
+    smallcount--;
+    textSize(14);
+    if (String.valueOf(smallscore[0]).length() == 4)
+    {
+      textSize(12);
+    }
+    fill(smallscorec);
+    text(smallscore[0], smallscore[1], smallscore[2]);
+    textSize(30);
+  }
   fill(255, 255, 0);
-  if (dir != "")
+  if (dir != "" && ghostStop == 0)
   {
     arc(cposx, cposy, csize + 13, csize + 13, radx - 0.01*count, rady + 0.01*count%10);
-  } else if (!death && lives > 0)
+  } else if (!death && lives > 0 && ghostStop == 0)
   {
     circle(cposx, cposy, csize + 13);
   }
@@ -743,7 +798,7 @@ void draw()
       count -= 5;
     }
   }
-  if (canMovei > 1)
+  if (canMovei > 1 && ghostStop == 0)
   {
     switch (dir)
     {
@@ -790,18 +845,22 @@ void draw()
   fill(255);
   text("Score", 50, 50);
   text(score, 123 - String.valueOf(score).length()*15, 94);
+  text("High Score", 360, 50);
+  text(highscore, 510 - String.valueOf(highscore).length()*15, 94);
   if (lives == 0)
   {
     fill(255, 0, 0);
     textSize(26); 
     text("GAME OVER", 241, 553);
+    help[0] = String.valueOf(highscore);
+    saveStrings("highscore.txt", help);
   }
 
   Ghostdraw(blinky);
   Ghostdraw(pinky);
   Ghostdraw(inky);
   Ghostdraw(clyde);
-  Fruits();
+
   fill(255, 255, 0);
   for (int i = 1; i < lives; i++)
   {
