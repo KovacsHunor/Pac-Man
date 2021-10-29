@@ -82,7 +82,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
   ghost.Ghostspeed = maxSpeed*percent;
   if (ghost.Intersects() && !ghost.scared && !ghost.caught && !ghost.start)
   {
-    // death = true;
+     death = true;
   }
   if (ghost.wantsToTurn && ghost.cooldown == 3 && ghost.Direction != -1)
   {
@@ -104,7 +104,7 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
       ghostStop = 100;
       smallscore[1] = ghost.PosX - 1;
       smallscore[2] = ghost.PosY + 23;
-      smallscorec = color(100, 100, 255);
+      smallscorec = color(100, 255, 255);
     }
   } 
   if (ghost.caught)
@@ -383,12 +383,15 @@ public void Fruits()
     {
       a = 7;
     }
-    for (int i = b; i <= a; i++)
+    if (level > 18)
     {
-      if (level > 18)
+      for (int i = 0; i < 7; i++)
       {
         image(fruitsp[7], 650 - 35*i, 880);
-      } else
+      }
+    } else
+    {
+      for (int i = b; i <= a; i++)
       {
         image(fruitsp[int(levelfruits.charAt(i)) - 48], 18*35 - a*35 + 20 + 35*i, 880);
       }
@@ -732,9 +735,14 @@ void draw()
     if (String.valueOf(smallscore[0]).length() == 4)
     {
       textSize(12);
+      smallscore[1]-= 2;
     }
     fill(smallscorec);
     text(smallscore[0], smallscore[1], smallscore[2]);
+    if (String.valueOf(smallscore[0]).length() == 4)
+    {
+      smallscore[1]+= 2;
+    }
     textSize(30);
   }
   fill(255, 255, 0);
