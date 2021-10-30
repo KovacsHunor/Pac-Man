@@ -1,4 +1,4 @@
-class Ghosts
+class Ghosts //<>//
 {
   boolean wantsToTurn = false;
   int cooldown = 3;
@@ -210,6 +210,7 @@ class Inky extends Ghosts
   if(inky.start && inky.PosX < 13*25 + 12)
     {
      inky.PosX++;
+     inky.Direction = 1;
     }
     else
     {
@@ -221,6 +222,7 @@ void Back()
   if(inky.PosX > 287)
     {
      inky.PosX-= 2;
+     inky.Direction = 3;
     }
     else
     {
@@ -267,6 +269,7 @@ class Clyde extends Ghosts
   if(clyde.start && clyde.PosX > 13*25 + 12)
     {
      clyde.PosX--;
+     clyde.Direction = 3;
     }
     else if(clyde.start)
     {
@@ -278,6 +281,7 @@ void Back()
   if(clyde.PosX < 389)
     {
      clyde.PosX+= 2;
+     clyde.Direction = 1;
     }
     else
     {

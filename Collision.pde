@@ -77,8 +77,7 @@ class Left extends Collision
   {
     towards = "left";
     cposx -= pRoundDown+pDelta+pRan;
-    radx = 0.5 - PI;
-    rady = 5.78 - PI;
+    pict = 3;
     if(!Bool(z,true) && Bool(z,false))
     {
       if(up.Bool(z,false))
@@ -114,8 +113,7 @@ class Right extends Collision
   {
     towards = "right";
     cposx += pRoundDown+pDelta+pRan;
-    radx = 0.5;
-    rady = 5.78;
+    pict = 6;
      if(!Bool(z,true) && Bool(z,false))
     {
       if(up.Bool(z,false))
@@ -151,8 +149,7 @@ class Up extends Collision
   {
     towards = "up";
     cposy -= pRoundDown+pDelta+pRan;
-    radx = 0.5 - PI/2;
-    rady = 5.78 - PI/2;
+    pict = 9;
      if(!Bool(z,true) && Bool(z,false))
     {
       if(left.Bool(z,false))
@@ -188,8 +185,7 @@ class Down extends Collision
   {
     towards = "down";
     cposy += pRoundDown+pDelta+pRan;
-    radx = 0.5 + PI/2;
-    rady = 5.78 + PI/2;
+    pict = 0;
     if(!Bool(z,true) && Bool(z,false))
     {
       if(left.Bool(z,false))

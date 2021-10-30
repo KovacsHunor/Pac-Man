@@ -1,7 +1,8 @@
-Blinky blinky = new Blinky(); //<>// //<>// //<>// //<>//
+Blinky blinky = new Blinky(); //<>// //<>// //<>// //<>// //<>//
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
+
 
 int bug = 0;
 
@@ -20,10 +21,10 @@ float scale = 1;
 Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[46];
 PImage[] deathanimation = new PImage[13];
+PImage[] pacanimation = new PImage[12];
 PImage[] fruitsp = new PImage[8];
 int lives = 3;
 int level = 1;
-
 String chase = "20,30,40,40,40,50,50,50,60";
 
 String swap = "7,20,7,20,5,20,5";
@@ -51,7 +52,7 @@ public int TwoPowers(int a)
 }
 public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
 {
-  boolean blinkyspeed = false;
+   boolean blinkyspeed = false;
   int i = level;
   if (i > 9)
   {
@@ -104,8 +105,8 @@ public void Phasecheck(Ghosts ghost, boolean wantsToTurn)
       numCaught++;
       score += 100*(TwoPowers(numCaught));
       smallscore[0] = 100*(TwoPowers(numCaught));
-      smallcount = 100;
-      ghostStop = 100;
+      smallcount = 75;
+      ghostStop = 75;
       smallscore[1] = ghost.PosX - 1;
       smallscore[2] = ghost.PosY + 23;
       smallscorec = color(100, 255, 255);
@@ -131,6 +132,14 @@ public void Outgo(Ghosts ghost)
   if (ghost.PosY > 15*25)
   {
     ghost.PosY--;
+    if(ghost.PosY > 15*25 + 2)
+    {
+    ghost.Direction = 0;
+    }
+    else
+    {
+      ghost.Direction = 1;
+    }
   } else
   {
     if (ghost == blinky || ghost == pinky)
@@ -150,6 +159,7 @@ public void InCome(Ghosts ghost)
 {
   if (ghost.CaughtX*25 + 15 > ghost.PosX && ghost.CaughtX*25 + 11 < ghost.PosX && 15*25 <= ghost.PosY && ghost.PosY < 450)
   {
+    ghost.Direction = 2;
     ghost.PosY+= 2;
   } else
   {
@@ -276,7 +286,10 @@ void setup()
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
   }
-  
+  for (int i = 0; i < 12; i++)
+  {
+    pacanimation[i] = loadImage("pacman/" +i+ ".png");
+  }
   for(int i = 0; i < 4; i++)
   {
     for(int f = 1; f <= 2; f++)
@@ -329,8 +342,7 @@ void setup()
 int csize = 23;
 int cposx = 356;
 int cposy = 688;
-float radx = 0.5;
-float rady = 5.78;
+int pict = 0;
 int count = 0;
 boolean mouth = false;
 boolean wall = false;
@@ -444,7 +456,7 @@ public void Fruits()
         smallscore[0] = 5000;
       }
       fruitCounter = 0;
-    } else if (fruitbool && fruitCounter < 1500)
+    } else if (fruitbool && fruitCounter < 1000)
     {
       if (level < 13)
       {
@@ -462,8 +474,11 @@ public void Fruits()
   }
 }
 String[] help = new String[1];
+int pictc = 0;
 void draw()
 {
+  
+  background(0);
   scale(scale);
   indexAnimation++;
   if(indexAnimation == 10)
@@ -471,7 +486,6 @@ void draw()
     Animation = !Animation;
     indexAnimation = 0;
   }
-  background(0);
 
   if (score > highscore)
   {
@@ -499,7 +513,7 @@ void draw()
     inky.scared = false;
     clyde.scared = false;
   }
-  Fruits();
+  
   if (index < split(swap, ',').length)
   {
     if (timer < int(float(split(swap, ',')[index])*100))
@@ -530,6 +544,8 @@ void draw()
     inky.Phase("chase");
     clyde.Phase("chase");
   }
+  
+  Fruits();
   IntoHouse(blinky);
   IntoHouse(pinky);
   IntoHouse(inky);
@@ -672,20 +688,20 @@ void draw()
   if ((float)deathcount/35 < 2 && deathcount > 0)
   {
     fill(255, 255, 0);
-    circle(cposx, cposy, csize + 13);
+    image(deathanimation[0], cposx - csize + 6, cposy - csize + 5);
   }
-  if ((float)deathcount/35 > 2)
+  if ((float)deathcount/25 > 2 && animation < 119)
   {
-    fill(255, 255, 0);
-    arc(cposx, cposy, csize + 13, csize + 13, (float)deathcount/35 - 2 - PI/2, PI*1.5 - (float)deathcount/35 + 2);
-  }
-  if ((float)deathcount/25 > PI*1.5 + 2 && animation < 26)
-  {
-    image(deathanimation[animation/2], cposx - csize + 3, cposy - csize + 5);
+    image(deathanimation[animation/10], cposx - csize + 6, cposy - csize + 5);
     animation++;
-  } else if ((float)deathcount/25 > 10)
+  } 
+  else if ((float)(deathcount)/25 < 9 && (float)(deathcount + 10)/25 > 8)
   {
-    makeblack = true;
+    image(deathanimation[12], cposx - csize + 6, cposy - csize + 5);
+  }
+  else if((float)deathcount/25 > 10)
+  {
+     makeblack = true;
   }
 
   if ((float)deathcount/25 == 15)
@@ -773,12 +789,17 @@ void draw()
     textSize(30);
   }
   fill(255, 255, 0);
+  if(pictc > 12)
+  {
+    pictc = 0;
+  }
+  pictc++;
   if (dir != "" && ghostStop == 0)
   {
-    arc(cposx, cposy, csize + 13, csize + 13, radx - 0.01*count, rady + 0.01*count%10);
+    image(pacanimation[pict + pictc/6], cposx - csize + 6, cposy - csize + 5);
   } else if (!death && lives > 0 && ghostStop == 0)
   {
-    circle(cposx, cposy, csize + 13);
+    image(deathanimation[0], cposx - csize + 6, cposy - csize + 5);
   }
 
   for (int i = 0; i < 26; i++)
@@ -818,20 +839,6 @@ void draw()
   if (dir != "")
   {
     canMovei++;
-    if (count > 50)
-    {
-      mouth = true;
-    } else if (count < 0)
-    {
-      mouth = false;
-    }
-    if (!mouth)
-    {
-      count += 5;
-    } else
-    {
-      count -= 5;
-    }
   }
   if (canMovei > 1 && ghostStop == 0)
   {
@@ -899,7 +906,8 @@ void draw()
   fill(255, 255, 0);
   for (int i = 1; i < lives; i++)
   {
-    arc(i*50 - 10, 900, csize + 13, csize + 13, 0.5 - PI, 5.78 - PI);
+    image(pacanimation[3], i*50 - 20, 880);
+    
   }
   if (makeblack)
   {
