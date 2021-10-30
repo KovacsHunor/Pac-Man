@@ -54,7 +54,7 @@ class Rect
     return bool;
   }
 }
-
+int dotflash = 0;
 class Dot extends Rect
 {
   boolean big;
@@ -62,7 +62,14 @@ class Dot extends Rect
   {
     if(dots[px][py].big)
     {
-      circle((px + 1)*25 + 19, (py + 5)*25 + 14, 20);
+      if(dotflash > 16)
+      {
+      image(bigdot, (px + 1)*25 + 9, (py + 5)*25 + 4);
+      }
+      if(dotflash > 32)
+      {
+        dotflash = 0;
+      }
       l = (px + 1)*25 + 17;
       u = (py + 5)*25 + 12;
       r = l+sx;

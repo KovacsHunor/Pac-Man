@@ -1,4 +1,4 @@
-Blinky blinky = new Blinky(); //<>// //<>// //<>// //<>// //<>//
+Blinky blinky = new Blinky(); //<>//
 Inky inky = new Inky();
 Pinky pinky = new Pinky();
 Clyde clyde = new Clyde();
@@ -22,6 +22,7 @@ Dot[][] dots = new Dot[30][36];
 Rect[] walls = new Rect[46];
 PImage[] deathanimation = new PImage[13];
 PImage[] pacanimation = new PImage[12];
+PImage bigdot = new PImage();
 PImage[] fruitsp = new PImage[8];
 int lives = 3;
 int level = 1;
@@ -282,6 +283,7 @@ void setup()
   pinky.Color = color(255, 184, 255);
   inky.Color = color(0, 255, 255);
   clyde.Color = color(255, 184, 82);
+  bigdot = loadImage("big.png");
   for (int i = 0; i < 13; i++)
   {
     deathanimation[i] = loadImage("death/" +i+ ".png");
@@ -480,6 +482,8 @@ void draw()
   
   background(0);
   scale(scale);
+  
+      dotflash++;
   indexAnimation++;
   if(indexAnimation == 10)
   {
